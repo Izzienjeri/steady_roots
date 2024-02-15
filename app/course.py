@@ -62,4 +62,3 @@ class CourseResource(Resource):
 api.add_resource(CourseListResource, '/courses')
 api.add_resource(CourseResource, '/courses/<string:course_id>')
 
-
