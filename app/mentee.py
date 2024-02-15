@@ -17,10 +17,12 @@ mentee_parser.add_argument('mentor_id', type=str, required=True, help='Mentor ID
 
 
 
+import time
+
 class MenteeListResource(Resource):
     def get(self):
         mentees = Mentee.query.all()
-        return [{'id': mentee.mentee_id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id} for mentee in mentees]
+        return [{'id': mentee.mentee_id, 'start': int(time.mktime(mentee.start.timetuple())), 'end': int(time.mktime(mentee.end.timetuple())), 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id} for mentee in mentees]
 
     def post(self):
         data = mentee_parser.parse_args()

@@ -17,7 +17,7 @@ course_parser.add_argument('qualification', type=str, required=True, help='Quali
 class CourseListResource(Resource):
     def get(self):
         courses = Course.query.all()
-        return [{'id': course.course_id, 'name': course.name, 'level': course.level, 'start': course.start, 'end': course.end, 'qualification': course.qualification} for course in courses]
+        return [{'id': course.course_id, 'name': course.name, 'level': course.level, 'start': course.start.timestamp(), 'end': course.end.timestamp(), 'qualification': course.qualification} for course in courses]
 
     def post(self):
         data = course_parser.parse_args()
