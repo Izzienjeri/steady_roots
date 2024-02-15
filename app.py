@@ -516,21 +516,21 @@ class MailingList(Resource):
 
 class PostList(Resource):
     def get(self):
-        posts = Post.query.all()
-        return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
+        myposts=Post.query.all()
+        return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in myposts]
 
     def post(self):
-        data = post_parser.parse_args()
-        new_post = Post(title=data['title'], description=data['description'], date_posted=data['date_posted'], approved=data['approved'], approved_by=data['approved_by'], user_id=data['user_id'])
-        db.session.add(new_post)
+        mydata = post_parser.parse_args()
+        mynew_post = Post(title=mydata['title'], description=mydata['description'], date_posted=mydata['date_posted'], approved=mydata['approved'], approved_by=mydata['approved_by'], user_id=mydata['user_id'])
+        db.session.add(mynew_post)
         db.session.commit()
-        return {'message': 'Post created successfully'}, 201
+        return {'message': 'New post created successfully'}, 201
 
 class Post(Resource):
     def get(self, post_id):
-        post = Post.query.get(post_id)
-        if post:
-            return {'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id}
+        posts = Post.query.get(post_id)
+        if posts:
+            return {'id': posts.post_id, 'title': posts.title, 'description': posts.description, 'date_posted': posts.date_posted, 'approved': posts.approved, 'approved_by': posts.approved_by, 'user_id': posts.user_id}
         else:
             return {'message': 'Post not found'}, 404
 
