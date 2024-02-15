@@ -52,7 +52,53 @@ class Mentor(Resource):
             return {'message': 'Mentor not found'}, 404
         
 
+class MenteeList(Resource):
+    def get(self):
+        mentees = Mentee.query.all()
+        return [{'id': mentee.id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id} for mentee in mentees]
+
+    def post(self):
+        data = mentee_parser.parse_args()
+        new_mentee = Mentee(start=data['start'], end=data['end'], user_id=data['user_id'], mentor_id=data['mentor_id'])
+        db.session.add(new_mentee)
+        db.session.commit()
+        return {'message': 'Mentee created successfully'}, 201
+
+class Mentee(Resource):
+    def get(self, mentee_id):
+        mentee = Mentee.query.get(mentee_id)
+        if mentee:
+            return {'id': mentee.id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id}
+        else:
+            return {'message': 'Mentee not found'}, 404
+
+    def patch(self, mentee_id):
+        data = mentee_parser.parse_args()
+        mentee = Mentee.query.get(mentee_id)
+        if mentee:
+            mentee.start = data['start']
+            mentee.end = data['end']
+            mentee.user_id = data['user_id']
+            mentee.mentor_id = data['mentor_id']
+            db.session.commit()
+            return {'message': 'Mentee updated successfully'}, 200
+        else:
+            return {'message': 'Mentee not found'}, 404
+
+    def delete(self, mentee_id):
+        mentee = Mentee.query.get(mentee_id)
+        if mentee:
+            db.session.delete(mentee)
+            db.session.commit()
+            return {'message': 'Mentee deleted successfully'}, 200
+        else:
+            return {'message': 'Mentee not found'}, 404
+        
+
+
 
 
 api.add_resource(MentorList, '/mentors')
 api.add_resource(Mentor, '/mentors/<string:mentor_id>')
+api.add_resource(MenteeList, '/mentees')
+api.add_resource(Mentee, '/mentees/<string:mentee_id>')
