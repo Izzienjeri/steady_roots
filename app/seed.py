@@ -1,8 +1,8 @@
-from app import db, app  
-from models import User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
+from app import create_app
+from models import db,User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
 
 from datetime import datetime
-
+app = create_app()
 def seed_users():
     users = [
         User(email='mark@example.com', password='password1', role='admin'),
