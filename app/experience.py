@@ -1,9 +1,9 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db,Experience
+from app.models import db,Experience
 
-user_bp=Blueprint('user_blueprint',__name__)
-api=Api(user_bp)
+experience_bp=Blueprint('experience_blueprint',__name__)
+api=Api(experience_bp)
 
 experience_parser = reqparse.RequestParser()
 experience_parser.add_argument('organisation', type=str, required=True, help='Organisation is required')

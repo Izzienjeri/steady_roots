@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db,MailingList
+from app.models import db,MailingList
 
 MailingList_bp=Blueprint('mailinglist_blueprint',__name__)
 api=Api(MailingList_bp)

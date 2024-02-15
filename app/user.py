@@ -1,7 +1,7 @@
 
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db,User
+from app.models import db,User
 
 user_bp=Blueprint('user_blueprint',__name__)
 api=Api(user_bp)
