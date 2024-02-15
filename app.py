@@ -1,12 +1,14 @@
-from models import db, User, Profile, Experience, Course, Membership, Event, Skill, Mentor, Mentee, Post, Mailing_list, Email
+from models import db,User, Profile, Experience, Course, Membership, Event,MailingList, Skill, Mentor, Mentee, Post, Email
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from flask_migrate import Migrate
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-migrate = Migrate(app,db)
 db.init_app(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+migrate = Migrate(app,db)
+
 api = Api(app)
 
 
@@ -93,7 +95,7 @@ skill_parser.add_argument('mentee_id', type=str, required=True, help='Mentee ID 
 class UserList(Resource):
     def get(self):
         users = User.query.all()
-        return [{'id': user.id, 'email': user.email, 'role': user.role, 'email_subscription': user.email_subscription} for user in users]
+        return [{'id': user.user_id, 'email': user.email, 'role': user.role, 'email_subscription': user.email_subscription} for user in users]
 
     def post(self):
         data = user_parser.parse_args()
@@ -106,7 +108,7 @@ class User(Resource):
     def get(self, user_id):
         user = User.query.get(user_id)
         if user:
-            return {'id': user.id, 'email': user.email, 'role': user.role, 'email_subscription': user.email_subscription}
+            return {'id': user.user_id, 'email': user.email, 'role': user.role, 'email_subscription': user.email_subscription}
         else:
             return {'message': 'User not found'}, 404
 
@@ -134,7 +136,7 @@ class User(Resource):
 class ProfileList(Resource):
     def get(self):
         profiles = Profile.query.all()
-        return [{'id': profile.id, 'first_name': profile.first_name, 'last_name': profile.last_name, 'photo_url': profile.photo_url} for profile in profiles]
+        return [{'id': profile.profile_id, 'first_name': profile.first_name, 'last_name': profile.last_name, 'photo_url': profile.photo_url} for profile in profiles]
 
     def post(self):
         data = profile_parser.parse_args()
@@ -147,7 +149,7 @@ class Profile(Resource):
     def get(self, profile_id):
         profile = Profile.query.get(profile_id)
         if profile:
-            return {'id': profile.id, 'first_name': profile.first_name, 'last_name': profile.last_name, 'photo_url': profile.photo_url}
+            return {'id': profile.profile_id, 'first_name': profile.first_name, 'last_name': profile.last_name, 'photo_url': profile.photo_url}
         else:
             return {'message': 'Profile not found'}, 404
 
@@ -177,7 +179,7 @@ class Profile(Resource):
 class ExperienceList(Resource):
     def get(self):
         experiences = Experience.query.all()
-        return [{'id': experience.id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': experience.start, 'end': experience.end} for experience in experiences]
+        return [{'id': experience.experience_id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': experience.start, 'end': experience.end} for experience in experiences]
 
     def post(self):
         data = experience_parser.parse_args()
@@ -190,7 +192,7 @@ class Experience(Resource):
     def get(self, experience_id):
         experience = Experience.query.get(experience_id)
         if experience:
-            return {'id': experience.id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': experience.start, 'end': experience.end}
+            return {'id': experience.experience_id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': experience.start, 'end': experience.end}
         else:
             return {'message': 'Experience not found'}, 404
 
@@ -221,7 +223,7 @@ class Experience(Resource):
 class CourseList(Resource):
     def get(self):
         courses = Course.query.all()
-        return [{'id': course.id, 'name': course.name, 'level': course.level, 'start': course.start, 'end': course.end, 'qualification': course.qualification} for course in courses]
+        return [{'id': course.course_id, 'name': course.name, 'level': course.level, 'start': course.start, 'end': course.end, 'qualification': course.qualification} for course in courses]
 
     def post(self):
         data = course_parser.parse_args()
@@ -234,7 +236,7 @@ class Course(Resource):
     def get(self, course_id):
         course = Course.query.get(course_id)
         if course:
-            return {'id': course.id, 'name': course.name, 'level': course.level, 'start': course.start, 'end': course.end, 'qualification': course.qualification}
+            return {'id': course.course_id, 'name': course.name, 'level': course.level, 'start': course.start, 'end': course.end, 'qualification': course.qualification}
         else:
             return {'message': 'Course not found'}, 404
 
@@ -265,7 +267,7 @@ class Course(Resource):
 class MembershipList(Resource):
     def get(self):
         memberships = Membership.query.all()
-        return [{'id': membership.id, 'amount': membership.amount, 'membership': membership.membership, 'expires': membership.expires} for membership in memberships]
+        return [{'id': membership.membership_id, 'amount': membership.amount, 'membership': membership.membership, 'expires': membership.expires} for membership in memberships]
 
     def post(self):
         data = membership_parser.parse_args()
@@ -278,7 +280,7 @@ class Membership(Resource):
     def get(self, membership_id):
         membership = Membership.query.get(membership_id)
         if membership:
-            return {'id': membership.id, 'amount': membership.amount, 'membership': membership.membership, 'expires': membership.expires}
+            return {'id': membership.membership_id, 'amount': membership.amount, 'membership': membership.membership, 'expires': membership.expires}
         else:
             return {'message': 'Membership not found'}, 404
 
@@ -307,7 +309,7 @@ class Membership(Resource):
 class EventList(Resource):
     def get(self):
         events = Event.query.all()
-        return [{'id': event.id, 'name': event.name, 'description': event.description, 'date': event.date, 'image': event.image, 'approved': event.approved} for event in events]
+        return [{'id': event.event_id, 'name': event.name, 'description': event.description, 'date': event.date, 'image': event.image, 'approved': event.approved} for event in events]
 
     def post(self):
         data = event_parser.parse_args()
@@ -320,7 +322,7 @@ class Event(Resource):
     def get(self, event_id):
         event = Event.query.get(event_id)
         if event:
-            return {'id': event.id, 'name': event.name, 'description': event.description, 'date': event.date, 'image': event.image, 'approved': event.approved}
+            return {'id': event.event_id, 'name': event.name, 'description': event.description, 'date': event.date, 'image': event.image, 'approved': event.approved}
         else:
             return {'message': 'Event not found'}, 404
 
@@ -351,7 +353,7 @@ class Event(Resource):
 class MentorList(Resource):
     def get(self):
         mentors = Mentor.query.all()
-        return [{'id': mentor.id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id} for mentor in mentors]
+        return [{'id': mentor.mentor_id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id} for mentor in mentors]
 
     def post(self):
         data = mentor_parser.parse_args()
@@ -364,7 +366,7 @@ class Mentor(Resource):
     def get(self, mentor_id):
         mentor = Mentor.query.get(mentor_id)
         if mentor:
-            return {'id': mentor.id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id}
+            return {'id': mentor.mentor_id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id}
         else:
             return {'message': 'Mentor not found'}, 404
 
@@ -392,7 +394,7 @@ class Mentor(Resource):
 class MenteeList(Resource):
     def get(self):
         mentees = Mentee.query.all()
-        return [{'id': mentee.id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id} for mentee in mentees]
+        return [{'id': mentee.mentee_id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id} for mentee in mentees]
 
     def post(self):
         data = mentee_parser.parse_args()
@@ -405,7 +407,7 @@ class Mentee(Resource):
     def get(self, mentee_id):
         mentee = Mentee.query.get(mentee_id)
         if mentee:
-            return {'id': mentee.id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id}
+            return {'id': mentee.mentee_id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id}
         else:
             return {'message': 'Mentee not found'}, 404
 
@@ -434,7 +436,7 @@ class Mentee(Resource):
 class EmailList(Resource):
     def get(self):
         emails = Email.query.all()
-        return [{'id': email.id, 'subject': email.subject, 'body': email.body, 'sender_email': email.sender_email} for email in emails]
+        return [{'id': email.email_id, 'subject': email.subject, 'body': email.body, 'sender_email': email.sender_email} for email in emails]
 
     def post(self):
         data = email_parser.parse_args()
@@ -447,7 +449,7 @@ class Email(Resource):
     def get(self, email_id):
         email = Email.query.get(email_id)
         if email:
-            return {'id': email.id, 'subject': email.subject, 'body': email.body, 'sender_email': email.sender_email}
+            return {'id': email.email_id, 'subject': email.subject, 'body': email.body, 'sender_email': email.sender_email}
         else:
             return {'message': 'Email not found'}, 404
 
@@ -474,27 +476,27 @@ class Email(Resource):
 
 class MailingListList(Resource):
     def get(self):
-        mailing_lists = Mailing_list.query.all()
-        return [{'id': mailing_list.id, 'email_id': mailing_list.email_id, 'user_id': mailing_list.user_id} for mailing_list in mailing_lists]
+        mailing_lists = MailingList.query.all()
+        return [{'id': mailing_list.mailing_list_id, 'email_id': mailing_list.email_id, 'user_id': mailing_list.user_id} for mailing_list in mailing_lists]
 
     def post(self):
         data = mailing_list_parser.parse_args()
-        new_mailing_list = Mailing_list(email_id=data['email_id'], user_id=data['user_id'])
+        new_mailing_list = MailingList(email_id=data['email_id'], user_id=data['user_id'])
         db.session.add(new_mailing_list)
         db.session.commit()
         return {'message': 'Mailing list created successfully'}, 201
 
 class MailingList(Resource):
     def get(self, mailing_list_id):
-        mailing_list = Mailing_list.query.get(mailing_list_id)
+        mailing_list = MailingList.query.get(mailing_list_id)
         if mailing_list:
-            return {'id': mailing_list.id, 'email_id': mailing_list.email_id, 'user_id': mailing_list.user_id}
+            return {'id': mailing_list.mailing_list_id, 'email_id': mailing_list.email_id, 'user_id': mailing_list.user_id}
         else:
             return {'message': 'Mailing list not found'}, 404
 
     def patch(self, mailing_list_id):
         data = mailing_list_parser.parse_args()
-        mailing_list = Mailing_list.query.get(mailing_list_id)
+        mailing_list = MailingList.query.get(mailing_list_id)
         if mailing_list:
             mailing_list.email_id = data['email_id']
             mailing_list.user_id = data['user_id']
@@ -504,7 +506,7 @@ class MailingList(Resource):
             return {'message': 'Mailing list not found'}, 404
 
     def delete(self, mailing_list_id):
-        mailing_list = Mailing_list.query.get(mailing_list_id)
+        mailing_list = MailingList.query.get(mailing_list_id)
         if mailing_list:
             db.session.delete(mailing_list)
             db.session.commit()
@@ -515,7 +517,7 @@ class MailingList(Resource):
 class PostList(Resource):
     def get(self):
         posts = Post.query.all()
-        return [{'id': post.id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
+        return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
 
     def post(self):
         data = post_parser.parse_args()
@@ -528,7 +530,7 @@ class Post(Resource):
     def get(self, post_id):
         post = Post.query.get(post_id)
         if post:
-            return {'id': post.id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id}
+            return {'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id}
         else:
             return {'message': 'Post not found'}, 404
 
@@ -559,7 +561,7 @@ class Post(Resource):
 class SkillList(Resource):
     def get(self):
         skills = Skill.query.all()
-        return [{'id': skill.id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id} for skill in skills]
+        return [{'id': skill.skill_id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id} for skill in skills]
 
     def post(self):
         data = skill_parser.parse_args()
@@ -572,7 +574,7 @@ class Skill(Resource):
     def get(self, skill_id):
         skill = Skill.query.get(skill_id)
         if skill:
-            return {'id': skill.id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id}
+            return {'id': skill.skill_id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id}
         else:
             return {'message': 'Skill not found'}, 404
 
