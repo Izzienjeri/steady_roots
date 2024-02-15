@@ -50,3 +50,9 @@ class Mentor(Resource):
             return {'message': 'Mentor deleted successfully'}, 200
         else:
             return {'message': 'Mentor not found'}, 404
+        
+
+
+
+api.add_resource(MentorList, '/mentors')
+api.add_resource(Mentor, '/mentors/<string:mentor_id>')
