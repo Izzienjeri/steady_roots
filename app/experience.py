@@ -15,10 +15,12 @@ experience_parser.add_argument('user_id', type=str, required=True, help='User ID
 
 
 
+import time
+
 class ExperienceListResource(Resource):
     def get(self):
         experiences = Experience.query.all()
-        return [{'id': experience.experience_id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': experience.start, 'end': experience.end} for experience in experiences]
+        return [{'id': experience.experience_id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': int(time.mktime(experience.start.timetuple())), 'end': int(time.mktime(experience.end.timetuple()))} for experience in experiences]
 
     def post(self):
         data = experience_parser.parse_args()
