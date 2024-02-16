@@ -1,7 +1,8 @@
-from app import db, app  
-from models import User, Profile, Experience, Course, Membership, Event, Mentor, Mentee, Email, Mailing_list, Post, Skill
-from datetime import datetime
+from app import create_app
+from app.models import db,User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
 
+from datetime import datetime
+app = create_app()
 def seed_users():
     users = [
         User(email='mark@example.com', password='password1', role='admin'),
@@ -85,8 +86,8 @@ def seed_emails():
 
 def seed_mailing_lists():
     mailing_lists = [
-        Mailing_list(email_id='email1_id', user_id='user1_id'),
-        Mailing_list(email_id='email2_id', user_id='user2_id'),
+        MailingList(email_id='email1_id', user_id='user1_id'),
+        MailingList(email_id='email2_id', user_id='user2_id'),
     ]
     with app.app_context():
         db.session.add_all(mailing_lists)
