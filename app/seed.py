@@ -1,8 +1,8 @@
-from app import db, app  
-from models import User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
+from app.app import create_app
+from app.models import db,User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
 
 from datetime import datetime
-
+app = create_app()
 def seed_users():
     users = [
         User(email='mark@example.com', password='password1', role='admin'),
@@ -14,8 +14,8 @@ def seed_users():
 
 def seed_profiles():
     profiles = [
-        Profile(first_name='Mark', last_name='Doe', photo_url='https://example.com/mark.jpg', password='password1', user_id='user1_id'),
-        Profile(first_name='Baraka', last_name='Smith', photo_url='https://example.com/baraka.jpg', password='password2', user_id='user2_id'),
+        Profile(first_name='Mark', last_name='Doe', photo_url='https://media.istockphoto.com/id/1040964880/photo/stay-hungry-for-success.jpg?s=612x612&w=0&k=20&c=rA1HTQ_BS1bv1POYCRthD179B3yENJhJITVeJTt_vJg=', password='password1', user_id='user1_id'),
+        Profile(first_name='Baraka', last_name='Smith', photo_url='https://media.istockphoto.com/id/1464048328/photo/business-man-looking-outside-the-window-in-an-office.jpg?s=612x612&w=0&k=20&c=4Ctrnz7NLFoK9JLTjVWk739fDZyvNfXaQVfyH5yyaUU=', password='password2', user_id='user2_id'),
     ]
     with app.app_context():
         db.session.add_all(profiles)
@@ -41,8 +41,8 @@ def seed_courses():
 
 def seed_memberships():
     memberships = [
-        Membership(amount=100.0, date_paid=datetime.utcnow(), membership=True, expires=datetime.utcnow(), user_id='user1_id'),
-        Membership(amount=150.0, date_paid=datetime.utcnow(), membership=False, expires=datetime.utcnow(), user_id='user2_id'),
+        Membership(amount=5000.0, date_paid=datetime.utcnow(), membership=True, expires=datetime.utcnow(), user_id='user1_id'),
+        Membership(amount=5000.0, date_paid=datetime.utcnow(), membership=False, expires=datetime.utcnow(), user_id='user2_id'),
     ]
     with app.app_context():
         db.session.add_all(memberships)
