@@ -17,10 +17,13 @@ post_parser.add_argument('approved_by', type=str, required=False, help='Approved
 
 
 
+import time
+
 class PostListResource(Resource):
     def get(self):
         posts = Post.query.all()
-        return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
+        return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': int(time.mktime(post.date_posted.timetuple())), 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
+
 
     def post(self):
         data = post_parser.parse_args()

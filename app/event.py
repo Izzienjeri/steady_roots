@@ -17,10 +17,13 @@ event_parser.add_argument('approved', type=bool, required=True, help='Event appr
 
 
 
+import time
+
 class EventListResource(Resource):
     def get(self):
         events = Event.query.all()
-        return [{'id': event.event_id, 'name': event.name, 'description': event.description, 'date': event.date, 'image': event.image, 'approved': event.approved} for event in events]
+        return [{'id': event.event_id, 'name': event.name, 'description': event.description, 'date': int(time.mktime(event.date.timetuple())), 'image': event.image, 'approved': event.approved} for event in events]
+
 
     def post(self):
         data = event_parser.parse_args()

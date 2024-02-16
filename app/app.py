@@ -1,7 +1,7 @@
 from app.models import db
 from flask import Flask
 from flask_migrate import Migrate
-from flask_restful import Api
+
 from app.mentor import mentor_bp
 from app.user import user_bp
 from app.profile import profile_bp

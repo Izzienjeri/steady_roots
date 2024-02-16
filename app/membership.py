@@ -14,10 +14,13 @@ membership_parser.add_argument('expires', type=str, required=True, help='Expirat
 membership_parser.add_argument('user_id', type=str, required=True, help='User ID is required')
 
 
+import time
+
 class MembershipListResource(Resource):
     def get(self):
         memberships = Membership.query.all()
-        return [{'id': membership.membership_id, 'amount': membership.amount, 'membership': membership.membership, 'expires': membership.expires} for membership in memberships]
+        return [{'id': membership.membership_id, 'amount': membership.amount, 'membership': membership.membership, 'expires': int(time.mktime(membership.expires.timetuple()))} for membership in memberships]
+
 
     def post(self):
         data = membership_parser.parse_args()
