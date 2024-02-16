@@ -1,5 +1,5 @@
 from app.app import create_app
-from app.models import db,User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
+from models import db,User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
 
 from datetime import datetime
 app = create_app()
