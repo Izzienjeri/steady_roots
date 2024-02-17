@@ -1,7 +1,7 @@
 from app.models import db
 from flask import Flask
 from flask_migrate import Migrate
-
+from app.auth import auth_bp
 from app.mentor import mentor_bp
 from app.user import user_bp
 from app.profile import profile_bp
@@ -24,6 +24,7 @@ def create_app():
     db.init_app(app) 
     
     migrate = Migrate(app,db)
+    app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(mentor_bp)
     app.register_blueprint(profile_bp)
