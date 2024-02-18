@@ -82,14 +82,6 @@ class LogoutResource(Resource):
         db.session.add(TokenBlocklist(jti=jti))
         db.session.commit()
         return {'message': 'Successfully logged out'}
-  
-
-    
-  
-
-    
-    
-
 
 api.add_resource(SignupResource, '/signup')
 api.add_resource(LoginResource, '/login')
