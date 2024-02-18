@@ -15,6 +15,7 @@ from app.mail import email_bp
 from app.experience import experience_bp
 from app.event import event_bp
 from app.course import course_bp
+from app.skill import skill_bp
 import secrets
 import os
 
@@ -53,6 +54,8 @@ def create_app():
     app.register_blueprint(experience_bp)
     app.register_blueprint(event_bp)
     app.register_blueprint(course_bp)
-
+    app.register_blueprint(skill_bp)
+    
+    
 
     return app

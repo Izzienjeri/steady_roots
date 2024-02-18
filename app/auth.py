@@ -36,8 +36,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
 def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
     jti = jwt_payload["jti"]
     token = db.session.query(TokenBlocklist).filter_by(jti=jti).first()
-    return token is not None
-
+    return True if token else False
 
 class SignupResource(Resource):
 
@@ -81,7 +80,8 @@ class LogoutResource(Resource):
         jti = get_jwt()['jti']
         db.session.add(TokenBlocklist(jti=jti))
         db.session.commit()
-        return {'message': 'Successfully logged out'}
+        data = {'message': 'Successfully logged out'}
+        return make_response(jsonify(data))
 
 api.add_resource(SignupResource, '/signup')
 api.add_resource(LoginResource, '/login')
