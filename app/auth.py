@@ -1,5 +1,5 @@
 from flask_restful import reqparse,Resource, Api
-from flask import jsonify, request, Blueprint
+from flask import jsonify, request, Blueprint, make_response
 from flask_jwt_extended import create_access_token, jwt_required, unset_jwt_cookies, JWTManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import User, db
@@ -8,15 +8,8 @@ from app.models import User, db
 
 
 auth_bp = Blueprint('auth', __name__)
-
 api = Api(auth_bp)
-
-
 jwt = JWTManager()
-
-
-
-
 
 signup_parser = reqparse.RequestParser()
 signup_parser.add_argument('email', type=str, required=True, help='Email is required')
@@ -46,7 +39,7 @@ class SignupResource(Resource):
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify({"msg": "User created successfully"}), 201
+        return make_response(jsonify({"msg": "User created successfully"}), 201)
 
 class LoginResource(Resource):
     def post(self):
@@ -60,14 +53,17 @@ class LoginResource(Resource):
             return jsonify({"msg": "Bad email or password"}), 401
 
         access_token = create_access_token(identity=user.user_id)
-        return jsonify(access_token=access_token), 200
+        return make_response(jsonify(access_token=access_token), 200)
+
+
 
 class LogoutResource(Resource):
     @jwt_required()
     def post(self):
-        response = jsonify({"msg": "Logout successful"})
+        response = make_response(jsonify({"msg": "Logout successful"}))
         unset_jwt_cookies(response)
         return response, 200
+
 
 api.add_resource(SignupResource, '/signup')
 api.add_resource(LoginResource, '/login')
