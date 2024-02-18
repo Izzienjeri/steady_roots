@@ -152,3 +152,12 @@ class Skill(db.Model):
 
     def __repr__(self):
         return f"Skill(skill_id={self.skill_id}, name={self.name})"
+    
+
+
+class TokenBlocklist(db.Model):
+    __tablename__='tokenblocklist'
+    id = db.Column(db.String, primary_key=True, default=generate_uuid)
+    jti= db.Column(db.String(36),nullable=False, index=True)
+    user_id = db.Column(db.String, db.ForeignKey('users.user_id'), nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False)
