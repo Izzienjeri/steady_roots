@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Experience
+from models import db,Experience
 
 experience_bp=Blueprint('experience_blueprint',__name__)
 api=Api(experience_bp)

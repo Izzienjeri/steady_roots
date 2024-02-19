@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Mentee
+from models import db,Mentee
 
 mentee_bp=Blueprint('mentee_blueprint',__name__)
 api=Api(mentee_bp)

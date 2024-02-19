@@ -1,21 +1,21 @@
-from app.models import db
+from models import db
 from flask import Flask
 from flask_cors import CORS,cross_origin
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from app.auth import auth_bp,bcrypt,jwt
-from app.mentor import mentor_bp
-from app.user import user_bp
-from app.profile import profile_bp
-from app.post import post_bp
-from app.mentee import mentee_bp
-from app.membership import membership_bp
-from app.mailinglist import MailingList_bp
-from app.mail import email_bp
-from app.experience import experience_bp
-from app.event import event_bp
-from app.course import course_bp
-from app.skill import skill_bp
+from auth import auth_bp,bcrypt,jwt
+from mentor import mentor_bp
+from user import user_bp
+from profile import profile_bp
+from post import post_bp
+from mentee import mentee_bp
+from membership import membership_bp
+from mailinglist import MailingList_bp
+from mail import email_bp
+from experience import experience_bp
+from event import event_bp
+from course import course_bp
+from skill import skill_bp
 import secrets
 import os
 

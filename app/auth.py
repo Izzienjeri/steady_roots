@@ -7,7 +7,7 @@ from flask_jwt_extended import (
     get_jwt,
     JWTManager
 )
-from app.models import User, db, TokenBlocklist
+from models import User, db, TokenBlocklist
 
 
 

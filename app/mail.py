@@ -2,7 +2,7 @@
 
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Email
+from models import db,Email
 
 email_bp=Blueprint('email_blueprint',__name__)
 api=Api(email_bp)

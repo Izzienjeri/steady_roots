@@ -1,4 +1,4 @@
-from app.app import create_app
+from app import create_app
 from models import db,User, Profile, Experience, Course, Membership, Event, MailingList, Skill, Mentor, Mentee, Post, Email
 
 from datetime import datetime

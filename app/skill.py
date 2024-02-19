@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db, Skill
+from models import db, Skill
 
 
 skill_bp=Blueprint('skill_blueprint',__name__)

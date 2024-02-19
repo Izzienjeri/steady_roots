@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db, Course
+from models import db, Course
 
 
 course_bp=Blueprint('course_blueprint',__name__)

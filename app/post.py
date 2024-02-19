@@ -1,7 +1,7 @@
 
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Post
+from models import db,Post
 
 post_bp=Blueprint('post_blueprint',__name__)
 api=Api(post_bp)

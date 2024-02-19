@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Membership
+from models import db,Membership
 
 membership_bp=Blueprint('membership_blueprint',__name__)
 api=Api(membership_bp)
