@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db, Experience,jwt_required, admin_required
+from app.models import db, Experience
+from app.auth import jwt_required
 
 experience_bp=Blueprint('experience_blueprint',__name__)
 api=Api(experience_bp)

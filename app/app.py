@@ -3,7 +3,7 @@ from flask import Flask
 from flask_cors import CORS,cross_origin
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from app.auth import auth_bp,bcrypt,jwt
+from app.auth import auth_bp,bcrypt
 from app.mentor import mentor_bp
 from app.user import user_bp
 from app.profile import profile_bp

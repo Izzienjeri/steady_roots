@@ -1,6 +1,8 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,MailingList,jwt_required
+from app.models import db,MailingList
+from app.auth import jwt_required
+from app.roles import admin_required
 
 MailingList_bp=Blueprint('mailinglist_blueprint',__name__)
 api=Api(MailingList_bp)

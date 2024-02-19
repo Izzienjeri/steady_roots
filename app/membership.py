@@ -1,6 +1,8 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Membership,jwt_required, admin_required
+from app.models import db,Membership
+from app.auth import jwt_required
+from app.roles import admin_required
 
 membership_bp=Blueprint('membership_blueprint',__name__)
 api=Api(membership_bp)

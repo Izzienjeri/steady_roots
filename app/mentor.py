@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Mentor, jwt_required
+from app.models import db,Mentor
+from app.auth import jwt_required
 
 mentor_bp=Blueprint('mentor_blueprint',__name__)
 api=Api(mentor_bp)
