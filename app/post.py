@@ -1,7 +1,8 @@
 
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db,Post, jwt_required
+from app.models import db,Post
+from app.auth import jwt_required
 
 post_bp=Blueprint('post_blueprint',__name__)
 api=Api(post_bp)

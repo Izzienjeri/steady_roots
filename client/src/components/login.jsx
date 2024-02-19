@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import { store } from "../Encryption";
 
 const SignIn = ({ setIsLoggedIn }) => {
   const [loading, setLoading] = useState(false);

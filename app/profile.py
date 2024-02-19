@@ -1,7 +1,8 @@
 
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Profile, jwt_required
+from app.models import db,Profile
+from app.auth import jwt_required
 
 profile_bp=Blueprint('profile_blueprint',__name__)
 api=Api(profile_bp)

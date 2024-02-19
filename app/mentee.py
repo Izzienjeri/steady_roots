@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Mentee, jwt_required
+from app.models import db,Mentee
+from app.auth import jwt_required
 
 mentee_bp=Blueprint('mentee_blueprint',__name__)
 api=Api(mentee_bp)

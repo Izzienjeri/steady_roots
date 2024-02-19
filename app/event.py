@@ -1,6 +1,8 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db, Event,jwt_required, admin_required
+from app.models import db, Event
+from app.auth import jwt_required
+from app.roles import admin_required
 
 
 event_bp=Blueprint('event_blueprint',__name__)

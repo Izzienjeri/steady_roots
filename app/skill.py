@@ -1,6 +1,8 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db, Skill, jwt_required
+from app.models import db, Skill
+from app.auth import jwt_required
+
 
 
 skill_bp=Blueprint('skill_blueprint',__name__)

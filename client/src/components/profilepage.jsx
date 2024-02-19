@@ -6,14 +6,12 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch profile data from backend upon component mount
     fetchProfileData();
   }, []);
 
   const fetchProfileData = async () => {
     try {
-      // Fetch profile data from backend API
-      const response = await fetch("https://your-backend-url/profile_data");
+      const response = await fetch("http://127.0.0.1:5555/profiles");
       if (!response.ok) {
         throw new Error("Failed to fetch profile data");
       }
