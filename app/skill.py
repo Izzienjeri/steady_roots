@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db, Skill
+from app.models import db, Skill, jwt_required
 
 
 skill_bp=Blueprint('skill_blueprint',__name__)
@@ -11,10 +11,13 @@ skill_parser.add_argument('name', type=str, required=True, help='Name of the ski
 
 
 class SkillListResource(Resource):
+
+    @jwt_required
     def get(self):
         skills = Skill.query.all()
         return [{'id': skill.skill_id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id} for skill in skills]
-
+    
+    @jwt_required
     def post(self):
         data = skill_parser.parse_args()
         new_skill = Skill(name=data['name'])
@@ -24,13 +27,15 @@ class SkillListResource(Resource):
     
 
 class SkillResource(Resource):
+    @jwt_required
     def get(self, skill_id):
         skill = Skill.query.get(skill_id)
         if skill:
             return {'id': skill.skill_id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id}
         else:
             return {'message': 'Skill not found'}, 404
-
+        
+    @jwt_required
     def patch(self, skill_id):
         data = skill_parser.parse_args()
         skill = Skill.query.get(skill_id)
@@ -42,7 +47,8 @@ class SkillResource(Resource):
             return {'message': 'Skill updated successfully'}, 200
         else:
             return {'message': 'Skill not found'}, 404
-
+    
+    @jwt_required
     def delete(self, skill_id):
         skill = Skill.query.get(skill_id)
         if skill:

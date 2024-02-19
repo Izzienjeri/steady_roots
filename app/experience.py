@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db,Experience
+from app.models import db, Experience,jwt_required, admin_required
 
 experience_bp=Blueprint('experience_blueprint',__name__)
 api=Api(experience_bp)
@@ -18,10 +18,12 @@ experience_parser.add_argument('user_id', type=str, required=True, help='User ID
 import time
 
 class ExperienceListResource(Resource):
+    @jwt_required
     def get(self):
         experiences = Experience.query.all()
         return [{'id': experience.experience_id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': int(time.mktime(experience.start.timetuple())), 'end': int(time.mktime(experience.end.timetuple()))} for experience in experiences]
-
+    
+    @jwt_required
     def post(self):
         data = experience_parser.parse_args()
         new_experience = Experience(organisation=data['organisation'], job_title=data['job_title'], description=data['description'], start=data['start'], end=data['end'], user_id=data['user_id'])
@@ -30,13 +32,15 @@ class ExperienceListResource(Resource):
         return {'message': 'Experience created successfully'}, 201
 
 class ExperienceResource(Resource):
+    @jwt_required
     def get(self, experience_id):
         experience = Experience.query.get(experience_id)
         if experience:
             return {'id': experience.experience_id, 'organisation': experience.organisation, 'job_title': experience.job_title, 'description': experience.description, 'start': experience.start, 'end': experience.end}
         else:
             return {'message': 'Experience not found'}, 404
-
+    
+    @jwt_required
     def patch(self, experience_id):
         data = experience_parser.parse_args()
         experience = Experience.query.get(experience_id)
@@ -51,7 +55,7 @@ class ExperienceResource(Resource):
             return {'message': 'Experience updated successfully'}, 200
         else:
             return {'message': 'Experience not found'}, 404
-
+    @jwt_required
     def delete(self, experience_id):
         experience = Experience.query.get(experience_id)
         if experience:

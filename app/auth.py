@@ -21,7 +21,6 @@ signup_parser = reqparse.RequestParser()
 signup_parser.add_argument('email', type=str, required=True, help='Email is required')
 signup_parser.add_argument('password', type=str, required=True, help='Password is required')
 
-
 login_parser = reqparse.RequestParser()
 login_parser.add_argument('email', type=str, required=True, help='Email is required')
 login_parser.add_argument('password', type=str, required=True, help='Password is required')
@@ -51,7 +50,7 @@ class SignupResource(Resource):
             return make_response(jsonify({'message': 'Email already exists'}), 409)
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        new_user = User(email=email, password=hashed_password, role=role)
+        new_user = User(email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 

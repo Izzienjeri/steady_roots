@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db,Membership
+from app.models import db,Membership,jwt_required, admin_required
 
 membership_bp=Blueprint('membership_blueprint',__name__)
 api=Api(membership_bp)
@@ -17,11 +17,12 @@ membership_parser.add_argument('user_id', type=str, required=True, help='User ID
 import time
 
 class MembershipListResource(Resource):
+    @jwt_required
     def get(self):
         memberships = Membership.query.all()
         return [{'id': membership.membership_id, 'amount': membership.amount, 'membership': membership.membership, 'expires': int(time.mktime(membership.expires.timetuple()))} for membership in memberships]
 
-
+    @jwt_required
     def post(self):
         data = membership_parser.parse_args()
         new_membership = Membership(amount=data['amount'], membership=data['membership'], expires=data['expires'], user_id=data['user_id'])
@@ -30,13 +31,15 @@ class MembershipListResource(Resource):
         return {'message': 'Membership created successfully'}, 201
 
 class MembershipResource(Resource):
+    @jwt_required
     def get(self, membership_id):
         membership = Membership.query.get(membership_id)
         if membership:
             return {'id': membership.membership_id, 'amount': membership.amount, 'membership': membership.membership, 'expires': membership.expires}
         else:
             return {'message': 'Membership not found'}, 404
-
+    
+    @jwt_required
     def patch(self, membership_id):
         data = membership_parser.parse_args()
         membership = Membership.query.get(membership_id)
@@ -49,7 +52,9 @@ class MembershipResource(Resource):
             return {'message': 'Membership updated successfully'}, 200
         else:
             return {'message': 'Membership not found'}, 404
-
+    
+    @jwt_required
+    @admin_required
     def delete(self, membership_id):
         membership = Membership.query.get(membership_id)
         if membership:
