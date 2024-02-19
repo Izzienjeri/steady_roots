@@ -20,7 +20,7 @@ api = Api(auth_bp)
 signup_parser = reqparse.RequestParser()
 signup_parser.add_argument('email', type=str, required=True, help='Email is required')
 signup_parser.add_argument('password', type=str, required=True, help='Password is required')
-signup_parser.add_argument('role', type=str, required=True, help='Role is required')
+
 
 login_parser = reqparse.RequestParser()
 login_parser.add_argument('email', type=str, required=True, help='Email is required')
@@ -44,7 +44,7 @@ class SignupResource(Resource):
         args = signup_parser.parse_args()
         email = args['email']
         password = args['password']
-        role = args['role']
+        
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:

@@ -13,7 +13,7 @@ class User(db.Model):
     user_id = db.Column(db.String, primary_key=True, default=generate_uuid)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
-    role = db.Column(db.String)
+    role = db.Column(db.String, default='user')
     email_subscription = db.Column(db.Boolean, default=False)
     profile = db.relationship("Profile", backref="user", uselist=False)
     experiences = db.relationship("Experience", backref="user")
