@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db,Membership
 from app.auth import jwt_required, get_jwt_identity
-from app.roles import admin_required
+from app.admin import admin_required
 
 membership_bp=Blueprint('membership_blueprint',__name__)
 api=Api(membership_bp)
@@ -56,7 +56,7 @@ class MembershipResource(Resource):
             return {'message': 'Membership not found'}, 404
     
     @jwt_required()
-    @admin_required
+    @admin_required()
     def delete(self, membership_id):
         membership = Membership.query.get(membership_id)
         if membership:
