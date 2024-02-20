@@ -23,6 +23,7 @@ import time
 class PostListResource(Resource):
     @jwt_required()
     def get(self):
+
         posts = Post.query.filter_by(user_id=get_jwt_identity() )
         return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': int(time.mktime(post.date_posted.timetuple())), 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
 
