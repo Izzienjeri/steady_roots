@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db,Mentor
+from app.auth import jwt_required
 
 mentor_bp=Blueprint('mentor_blueprint',__name__)
 api=Api(mentor_bp)
@@ -13,6 +14,7 @@ mentor_parser.add_argument('user_id', type=str, required=True, help='User ID is 
 
 
 class MentorListResource(Resource):
+    @jwt_required
     def get(self):
         mentors = Mentor.query.all()
         return [{'id': mentor.mentor_id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id} for mentor in mentors]
@@ -25,13 +27,15 @@ class MentorListResource(Resource):
         return {'message': 'Mentor created successfully'}, 201
 
 class MentorResource(Resource):
+    @jwt_required
     def get(self, mentor_id):
         mentor = Mentor.query.get(mentor_id)
         if mentor:
             return {'id': mentor.mentor_id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id}
         else:
             return {'message': 'Mentor not found'}, 404
-
+    
+    @jwt_required
     def patch(self, mentor_id):
         data = mentor_parser.parse_args()
         mentor = Mentor.query.get(mentor_id)
@@ -43,7 +47,8 @@ class MentorResource(Resource):
             return {'message': 'Mentor updated successfully'}, 200
         else:
             return {'message': 'Mentor not found'}, 404
-
+    
+    @jwt_required
     def delete(self, mentor_id):
         mentor = Mentor.query.get(mentor_id)
         if mentor:

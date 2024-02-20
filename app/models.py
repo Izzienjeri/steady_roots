@@ -13,7 +13,7 @@ class User(db.Model):
     user_id = db.Column(db.String, primary_key=True, default=generate_uuid)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
-    role = db.Column(db.String)
+    role = db.Column(db.String, default='user')
     email_subscription = db.Column(db.Boolean, default=False)
     profile = db.relationship("Profile", backref="user", uselist=False)
     experiences = db.relationship("Experience", backref="user")
@@ -152,3 +152,12 @@ class Skill(db.Model):
 
     def __repr__(self):
         return f"Skill(skill_id={self.skill_id}, name={self.name})"
+    
+
+
+class TokenBlocklist(db.Model):
+    __tablename__='tokenblocklist'
+    id = db.Column(db.String, primary_key=True, default=generate_uuid)
+    jti= db.Column(db.String(36),nullable=False, index=True)
+    user_id = db.Column(db.String, db.ForeignKey('users.user_id'), nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False)

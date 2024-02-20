@@ -1,6 +1,8 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db,MailingList
+from app.auth import jwt_required
+from app.roles import admin_required
 
 MailingList_bp=Blueprint('mailinglist_blueprint',__name__)
 api=Api(MailingList_bp)
@@ -14,10 +16,12 @@ mailing_list_parser.add_argument('user_id', type=str, required=True, help='User 
 
 
 class MailingListResource(Resource):
+    @jwt_required
     def get(self):
         mailing_lists = MailingList.query.all()
         return [{'id': mailing_list.mailing_list_id, 'email_id': mailing_list.email_id, 'user_id': mailing_list.user_id} for mailing_list in mailing_lists]
-
+    
+    @jwt_required
     def post(self):
         data = mailing_list_parser.parse_args()
         new_mailing_list = MailingList(email_id=data['email_id'], user_id=data['user_id'])
@@ -26,13 +30,15 @@ class MailingListResource(Resource):
         return {'message': 'Mailing list created successfully'}, 201
 
 class MailingListById(Resource):
+    @jwt_required
     def get(self, mailing_list_id):
         mailing_list = MailingList.query.get(mailing_list_id)
         if mailing_list:
             return {'id': mailing_list.mailing_list_id, 'email_id': mailing_list.email_id, 'user_id': mailing_list.user_id}
         else:
             return {'message': 'Mailing list not found'}, 404
-
+    
+    @jwt_required
     def patch(self, mailing_list_id):
         data = mailing_list_parser.parse_args()
         mailing_list = MailingList.query.get(mailing_list_id)
@@ -43,7 +49,8 @@ class MailingListById(Resource):
             return {'message': 'Mailing list updated successfully'}, 200
         else:
             return {'message': 'Mailing list not found'}, 404
-
+    
+    @jwt_required
     def delete(self, mailing_list_id):
         mailing_list = MailingList.query.get(mailing_list_id)
         if mailing_list:
