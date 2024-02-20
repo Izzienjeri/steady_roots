@@ -3,7 +3,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db,Email
-from app.auth import jwt_required
+from app.auth import jwt_required, get_jwt_identity
 
 
 email_bp=Blueprint('email_blueprint',__name__)
@@ -18,9 +18,9 @@ email_parser.add_argument('sender_email', type=str, required=True, help='Sender 
 
 
 class EmailListResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self):
-        emails = Email.query.all()
+        emails = Email.query.filter_by(user_id=get_jwt_identity() )
         return [{'id': email.email_id, 'subject': email.subject, 'body': email.body, 'sender_email': email.sender_email} for email in emails]
 
     def post(self):
@@ -31,14 +31,14 @@ class EmailListResource(Resource):
         return {'message': 'Email created successfully'}, 201
 
 class EmailResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self, email_id):
         email = Email.query.get(email_id)
         if email:
             return {'id': email.email_id, 'subject': email.subject, 'body': email.body, 'sender_email': email.sender_email}
         else:
             return {'message': 'Email not found'}, 404
-    @jwt_required
+    @jwt_required()
     def patch(self, email_id):
         data = email_parser.parse_args()
         email = Email.query.get(email_id)
@@ -51,7 +51,7 @@ class EmailResource(Resource):
         else:
             return {'message': 'Email not found'}, 404
     
-    @jwt_required
+    @jwt_required()
     def delete(self, email_id):
         email = Email.query.get(email_id)
         if email:

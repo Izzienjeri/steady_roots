@@ -10,17 +10,21 @@ const Signup = () => {
   const formSchema = yup.object().shape({
     email: yup.string().email("Invalid email").required("Email is required"),
     password: yup.string().required("Password is required").min(8),
+    first_name: yup.string().required("First name is required"),
+    last_name: yup.string().required("Last name is required"),
   });
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
+      first_name: "",
+      last_name: "",
     },
     validationSchema: formSchema,
     onSubmit: async (values) => {
       try {
-        const response = await fetch("/api/signup", {
+        const response = await fetch("http://127.0.0.1:5555/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -31,7 +35,7 @@ const Signup = () => {
           const errorData = await response.json();
           throw new Error(errorData.message);
         }
-        navigate("/profile");
+        navigate("/login");
       } catch (err) {
         setError(err.message);
       }
@@ -44,6 +48,28 @@ const Signup = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={formik.handleSubmit}>
         <div>
+          <label htmlFor="first_name">First Name</label>
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            value={formik.values.first_name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.first_name && formik.errors.first_name && (
+            <p style={{ color: "red" }}>{formik.errors.first_name}</p>
+          )}
+
+          <label htmlFor="last_name">Last Name</label>
+          <input
+            type="text"
+            name="last_name"
+            id="last_name"
+            value={formik.values.last_name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
           <label>Email:</label>
           <input
             type="email"

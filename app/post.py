@@ -2,7 +2,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db,Post
-from app.auth import jwt_required
+from app.auth import jwt_required, get_jwt_identity
 
 post_bp=Blueprint('post_blueprint',__name__)
 api=Api(post_bp)
@@ -21,12 +21,12 @@ post_parser.add_argument('approved_by', type=str, required=False, help='Approved
 import time
 
 class PostListResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self):
-        posts = Post.query.all()
+        posts = Post.query.filter_by(user_id=get_jwt_identity() )
         return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': int(time.mktime(post.date_posted.timetuple())), 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
 
-    @jwt_required
+    @jwt_required()
     def post(self):
         data = post_parser.parse_args()
         new_post = Post(title=data['title'], description=data['description'], date_posted=data['date_posted'], approved=data['approved'], approved_by=data['approved_by'], user_id=data['user_id'])
@@ -35,7 +35,7 @@ class PostListResource(Resource):
         return {'message': 'Post created successfully'}, 201
 
 class PostResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self, post_id):
         post = Post.query.get(post_id)
         if post:
@@ -43,7 +43,7 @@ class PostResource(Resource):
         else:
             return {'message': 'Post not found'}, 404
     
-    @jwt_required
+    @jwt_required()
     def patch(self, post_id):
         data = post_parser.parse_args()
         post = Post.query.get(post_id)
@@ -59,7 +59,7 @@ class PostResource(Resource):
         else:
             return {'message': 'Post not found'}, 404
     
-    @jwt_required
+    @jwt_required()
     def delete(self, post_id):
         post = Post.query.get(post_id)
         if post:
