@@ -9,6 +9,8 @@ from flask_jwt_extended import (
     get_jwt_identity
 )
 from app.models import User, db, TokenBlocklist
+import datetime
+
 
 
 
@@ -74,7 +76,7 @@ class LoginResource(Resource):
     
 
 class LogoutResource(Resource):
-    
+
     @jwt_required()
     def post(self):
         jwt_data = get_jwt()
