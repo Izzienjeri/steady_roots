@@ -5,7 +5,7 @@ function post() {
 	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
-		fetch("http://127.0.0.1:5000/posts")
+		fetch("http://127.0.0.1:5555/posts")
 			.then((resp) => resp.json())
 			.then((data) => {
 				setpost(data)
@@ -17,11 +17,10 @@ function post() {
 		<div>
 			<thead>
 				<tr>
-					<th width="auto">Title</th>
-					<th width="auto">Description</th>
-					<th width="auto">Date_posted</th>
-					<th width="auto">Approved</th>
-					<th width="auto">Approved_by</th>
+					<th width="auto">Amount</th>
+					<th width="auto">Date_paid</th>
+					<th width="auto">Membership</th>
+					<th width="auto">Expires</th>
 				</tr>
 			</thead>
 			<tbody>

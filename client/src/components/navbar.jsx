@@ -31,6 +31,7 @@ function Navbar() {
                 Sign In
               </Link>
             </li>
+        
           </ul>
         </div>
       </div>
