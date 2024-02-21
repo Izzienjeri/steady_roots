@@ -1,9 +1,9 @@
-from app.models import db
-from flask import Flask
-from flask_cors import CORS,cross_origin
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from app.auth import auth_bp,bcrypt,jwt
+from app.models import db
+from app.auth import auth_bp, bcrypt
 from app.mentor import mentor_bp
 from app.user import user_bp
 from app.profile import profile_bp
@@ -16,9 +16,9 @@ from app.experience import experience_bp
 from app.event import event_bp
 from app.course import course_bp
 from app.skill import skill_bp
+from datetime import timedelta
 import secrets
 import os
-
 
 
 def create_app():
@@ -32,16 +32,22 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = flask_secret_key
     app.config['JWT_SECRET_KEY'] = jwt_secret_key
-    
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=2)
+
+
+
+ 
     db.init_app(app)
+
     jwt.init_app(app)
-    bcrypt.init_app(app)   
+
+    bcrypt.init_app(app)
+
     migrate = Migrate(app, db)
-    
+
+ 
    
-    
-    
-    
+
     app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(mentor_bp)
@@ -55,7 +61,5 @@ def create_app():
     app.register_blueprint(event_bp)
     app.register_blueprint(course_bp)
     app.register_blueprint(skill_bp)
-    
-    
 
     return app

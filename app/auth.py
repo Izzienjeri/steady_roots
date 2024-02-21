@@ -5,9 +5,12 @@ from flask_jwt_extended import (
     create_access_token,
     jwt_required,
     get_jwt,
-    JWTManager
+    JWTManager,
+    get_jwt_identity
 )
 from app.models import User, db, TokenBlocklist
+import datetime
+
 
 
 
@@ -20,7 +23,6 @@ api = Api(auth_bp)
 signup_parser = reqparse.RequestParser()
 signup_parser.add_argument('email', type=str, required=True, help='Email is required')
 signup_parser.add_argument('password', type=str, required=True, help='Password is required')
-signup_parser.add_argument('role', type=str, required=True, help='Role is required')
 
 login_parser = reqparse.RequestParser()
 login_parser.add_argument('email', type=str, required=True, help='Email is required')
@@ -44,14 +46,14 @@ class SignupResource(Resource):
         args = signup_parser.parse_args()
         email = args['email']
         password = args['password']
-        role = args['role']
+        
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             return make_response(jsonify({'message': 'Email already exists'}), 409)
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        new_user = User(email=email, password=hashed_password, role=role)
+        new_user = User(email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
@@ -70,20 +72,20 @@ class LoginResource(Resource):
             return make_response(jsonify({'message': 'Invalid email or password'}), 401)
 
         access_token = create_access_token(identity=user.user_id)
-        return make_response(jsonify({'access_token': access_token}))
-
+        return access_token
     
 
 class LogoutResource(Resource):
-    @jwt_required
+
+    @jwt_required()
     def post(self):
-        jti = get_jwt()['jti']
-        db.session.add(TokenBlocklist(jti=jti))
+        jwt_data = get_jwt()
+        blocked_token = TokenBlocklist(jti=jwt_data.get('jti'), created_at=datetime.datetime.utcnow())
+        db.session.add(blocked_token)
         db.session.commit()
         data = {'message': 'Successfully logged out'}
-        return make_response(jsonify(data))
+        return data 
 
 api.add_resource(SignupResource, '/signup')
 api.add_resource(LoginResource, '/login')
 api.add_resource(LogoutResource, '/logout')
-
