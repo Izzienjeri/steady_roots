@@ -5,6 +5,9 @@ import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
 import Typography from "../components/Typography";
 import TextField from "../components/TextField";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import Button from "@mui/material/Button";
+import XIcon from "@mui/icons-material/X";
 
 function Copyright() {
   return (
@@ -58,24 +61,7 @@ export default function AppFooter() {
               spacing={2}
               sx={{ height: 120 }}
             >
-              <Grid item sx={{ display: "flex" }}>
-                <Box component="a" href="https://mui.com/" sx={iconStyle}>
-                  <img
-                    src="/static/themes/onepirate/appFooterFacebook.png"
-                    alt="Facebook"
-                  />
-                </Box>
-                <Box
-                  component="a"
-                  href="https://twitter.com/MUI_hq"
-                  sx={iconStyle}
-                >
-                  <img
-                    src="/static/themes/onepirate/appFooterTwitter.png"
-                    alt="X"
-                  />
-                </Box>
-              </Grid>
+              <Grid item sx={{ display: "flex" }}></Grid>
               <Grid item>
                 <Copyright />
               </Grid>

@@ -25,7 +25,7 @@ const image = {
   my: 4,
 };
 
-function ProductHowItWorks() {
+function AlumniEngagementProcess() {
   return (
     <Box
       component="section"
@@ -41,19 +41,8 @@ function ProductHowItWorks() {
           alignItems: "center",
         }}
       >
-        <Box
-          component="img"
-          src="/static/themes/onepirate/productCurvyLines.png"
-          alt="curvy lines"
-          sx={{
-            pointerEvents: "none",
-            position: "absolute",
-            top: -180,
-            opacity: 0.7,
-          }}
-        />
         <Typography variant="h4" marked="center" component="h2" sx={{ mb: 14 }}>
-          How it works
+          Alumni Engagement Process
         </Typography>
         <div>
           <Grid container spacing={5}>
@@ -62,12 +51,12 @@ function ProductHowItWorks() {
                 <Box sx={number}>1.</Box>
                 <Box
                   component="img"
-                  src="/static/themes/onepirate/productHowItWorks1.svg"
-                  alt="suitcase"
+                  src="https://freesvg.org/storage/img/thumb/shiny-coin3.png"
+                  alt="Apply and pay for membership"
                   sx={image}
                 />
                 <Typography variant="h5" align="center">
-                  Appointment every Wednesday 9am.
+                  Apply for membership and make payment.
                 </Typography>
               </Box>
             </Grid>
@@ -76,13 +65,12 @@ function ProductHowItWorks() {
                 <Box sx={number}>2.</Box>
                 <Box
                   component="img"
-                  src="/static/themes/onepirate/productHowItWorks2.svg"
-                  alt="graph"
+                  src="https://freesvg.org/storage/img/thumb/Connections.png"
+                  alt="Networking events"
                   sx={image}
                 />
                 <Typography variant="h5" align="center">
-                  First come, first served. Our offers are in limited
-                  quantities, so be quick.
+                  Connect with fellow alumni at networking events.
                 </Typography>
               </Box>
             </Grid>
@@ -91,13 +79,12 @@ function ProductHowItWorks() {
                 <Box sx={number}>3.</Box>
                 <Box
                   component="img"
-                  src="/static/themes/onepirate/productHowItWorks3.svg"
-                  alt="clock"
+                  src="https://freesvg.org/storage/img/thumb/mentoring-0.png"
+                  alt="Mentorship program"
                   sx={image}
                 />
                 <Typography variant="h5" align="center">
-                  {"New offers every week. New experiences, new surprises. "}
-                  {"Your Sundays will no longer be alike."}
+                  Participate in our mentorship program.
                 </Typography>
               </Box>
             </Grid>
@@ -108,14 +95,14 @@ function ProductHowItWorks() {
           size="large"
           variant="contained"
           component="a"
-          href="/premium-themes/onepirate/sign-up/"
+          href="/signup"
           sx={{ mt: 8 }}
         >
-          Get started
+          Explore Alumni Features
         </Button>
       </Container>
     </Box>
   );
 }
 
-export default ProductHowItWorks;
+export default AlumniEngagementProcess;

@@ -30,20 +30,16 @@ function ProductValues() {
             <Box sx={item}>
               <Box
                 component="img"
-                src="/static/themes/onepirate/productValues1.svg"
-                alt="suitcase"
+                src="https://freesvg.org/storage/img/thumb/tolerance.png"
+                alt="opportunities"
                 sx={{ height: 55 }}
               />
               <Typography variant="h6" sx={{ my: 5 }}>
-                The best luxury hotels
+                Unlock Exclusive Opportunities
               </Typography>
               <Typography variant="h5">
                 {
-                  "From the latest trendy boutique hotel to the iconic palace with XXL pool"
-                }
-
-                {
-                  ", go for a mini-vacation just a few subway stops away from your home."
+                  "Dive into a world of exclusive content, events, and job opportunities tailor-made for our members."
                 }
               </Typography>
             </Box>
@@ -52,19 +48,17 @@ function ProductValues() {
             <Box sx={item}>
               <Box
                 component="img"
-                src="/static/themes/onepirate/productValues2.svg"
+                src="https://freesvg.org/storage/img/thumb/Infinity-Arrow.png"
                 alt="graph"
                 sx={{ height: 55 }}
               />
               <Typography variant="h6" sx={{ my: 5 }}>
-                New experiences
+                Stay in the Loop
               </Typography>
               <Typography variant="h5">
                 {
-                  "Privatize a pool, take a Japanese bath or wake up in 900m2 of garden… "
+                  "Get the latest updates and opportunities delivered straight to your inbox with our informative email notifications. "
                 }
-
-                {"your Sundays will not be alike."}
               </Typography>
             </Box>
           </Grid>
@@ -72,16 +66,17 @@ function ProductValues() {
             <Box sx={item}>
               <Box
                 component="img"
-                src="/static/themes/onepirate/productValues3.svg"
+                src="https://freesvg.org/storage/img/thumb/1499437188.png"
                 alt="clock"
                 sx={{ height: 55 }}
               />
               <Typography variant="h6" sx={{ my: 5 }}>
-                Exclusive rates
+                Connect and Collaborate
               </Typography>
               <Typography variant="h5">
-                {"By registering, you will access specially negotiated rates "}
-                {"that you will not find anywhere else."}
+                {
+                  "Network with like-minded professionals, attend events, and explore collaboration opportunities within our vibrant community."
+                }
               </Typography>
             </Box>
           </Grid>

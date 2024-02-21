@@ -38,11 +38,9 @@ function ProductCTA() {
               sx={{ maxWidth: 400 }}
             >
               <Typography variant="h2" component="h2" gutterBottom>
-                Receive offers
+                Receive Updates
               </Typography>
-              <Typography variant="h5">
-                Taste the holidays of the everyday close to home.
-              </Typography>
+              <Typography variant="h5">Level up professionally</Typography>
               <TextField
                 noBorder
                 placeholder="Your email"
@@ -97,7 +95,7 @@ function ProductCTA() {
       <Snackbar
         open={open}
         closeFunc={handleClose}
-        message="We will send you our best offers, once a week."
+        message="Subscription confirmed! 🎉 You'll now receive our latest updates directly to your inbox. Stay tuned!"
       />
     </Container>
   );
