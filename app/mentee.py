@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Mentee, jwt_required
+from app.models import db,Mentee
+from app.auth import jwt_required, get_jwt_identity
 
 mentee_bp=Blueprint('mentee_blueprint',__name__)
 api=Api(mentee_bp)
@@ -21,9 +22,9 @@ import time
 
 class MenteeListResource(Resource):
 
-    @jwt_required
+    @jwt_required()
     def get(self):
-        mentees = Mentee.query.all()
+        mentees = Mentee.query.filter_by(user_id=get_jwt_identity() )
         return [{'id': mentee.mentee_id, 'start': int(time.mktime(mentee.start.timetuple())), 'end': int(time.mktime(mentee.end.timetuple())), 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id} for mentee in mentees]
 
     def post(self):
@@ -34,7 +35,7 @@ class MenteeListResource(Resource):
         return {'message': 'Mentee created successfully'}, 201
 
 class MenteeResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self, mentee_id):
         mentee = Mentee.query.get(mentee_id)
         if mentee:
@@ -42,7 +43,7 @@ class MenteeResource(Resource):
         else:
             return {'message': 'Mentee not found'}, 404
     
-    @jwt_required
+    @jwt_required()
     def patch(self, mentee_id):
         data = mentee_parser.parse_args()
         mentee = Mentee.query.get(mentee_id)
@@ -56,7 +57,7 @@ class MenteeResource(Resource):
         else:
             return {'message': 'Mentee not found'}, 404
     
-    @jwt_required
+    @jwt_required()
     def delete(self, mentee_id):
         mentee = Mentee.query.get(mentee_id)
         if mentee:
