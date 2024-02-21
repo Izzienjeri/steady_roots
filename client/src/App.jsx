@@ -1,25 +1,9 @@
-import React from "react";
+import React, { useState } from 'react';
+import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
-
-export default App;
-
-import React, { useState } from 'react';
-import './App.css';
 import ExperienceComponent from './components/ExperienceComponent';
 import CourseComponent from './components/CourseComponent';
 import AddExperienceComponent from './components/AddExperienceComponent';
@@ -49,6 +33,14 @@ function App() {
 
   return (
     <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </BrowserRouter>
+
       <h2>Experiences</h2>
       <AddExperienceComponent onAdd={handleAddExperience} />
       {experiences.map(experience => (
