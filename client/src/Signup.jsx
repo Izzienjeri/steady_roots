@@ -12,9 +12,11 @@ import RFTextField from "./modules/form/RFTextField";
 import FormButton from "./modules/form/FormButton";
 import FormFeedback from "./modules/form/FormFeedback";
 import withRoot from "./modules/withRoot";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [sent, setSent] = React.useState(false);
+  const Navigate = useNavigate();
 
   const validate = (values) => {
     const errors = required(
@@ -32,8 +34,26 @@ function SignUp() {
     return errors;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (values) => {
     setSent(true);
+    // Make an HTTP request to your backend signup endpoint
+    try {
+      const response = await fetch("http://127.0.0.1:5555/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+      // Assuming your backend returns some data upon successful signup
+      console.log(data);
+      // Redirect to the signin page after successful signup
+      Navigate("/signin");
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error appropriately, e.g., display error message to the user
+    }
   };
 
   return (

@@ -1,4 +1,7 @@
-import * as React from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SignIn from "./Signin";
+import SignUp from "./Signup";
 import ProductCategories from "./modules/views/ProductCategories";
 import ProductSmokingHero from "./modules/views/ProductSmokingHero";
 import AppFooter from "./modules/views/AppFooter";
@@ -9,19 +12,25 @@ import ProductCTA from "./modules/views/ProductCTA";
 import AppAppBar from "./modules/views/AppAppBar";
 import withRoot from "./modules/withRoot";
 
-function Index() {
+function Home() {
   return (
-    <React.Fragment>
-      <AppAppBar />
-      <ProductHero />
-      <ProductValues />
-      <ProductCategories />
-      <ProductHowItWorks />
-      <ProductCTA />
-      <ProductSmokingHero />
-      <AppFooter />
-    </React.Fragment>
+    <Router>
+      <React.Fragment>
+        <AppAppBar />
+        <Routes>
+          <Route path="/" element={<ProductHero />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+        <ProductValues />
+        <ProductCategories />
+        <ProductHowItWorks />
+        <ProductCTA />
+        <ProductSmokingHero />
+        <AppFooter />
+      </React.Fragment>
+    </Router>
   );
 }
 
-export default withRoot(Index);
+export default withRoot(Home);

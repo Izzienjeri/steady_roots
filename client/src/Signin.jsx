@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -11,9 +12,11 @@ import RFTextField from "./modules/form/RFTextField";
 import FormButton from "./modules/form/FormButton";
 import FormFeedback from "./modules/form/FormFeedback";
 import withRoot from "./modules/withRoot";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
-  const [sent, setSent] = React.useState(false);
+  const [sent, setSent] = useState(false);
+  const Navigate = useNavigate();
 
   const validate = (values) => {
     const errors = required(["email", "password"], values);
@@ -28,8 +31,30 @@ function SignIn() {
     return errors;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (values) => {
     setSent(true);
+
+    try {
+      const response = await fetch("http://127.0.0.1:5555/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        // Signin successful, navigate to a new page or perform other actions
+        Navigate("/dashboard"); // Example: navigate to the dashboard page
+      } else {
+        // Handle signin failure
+        // Show error message or perform other actions
+        console.error("Signin failed");
+      }
+    } catch (error) {
+      // Handle any network errors or other exceptions
+      console.error("Error occurred:", error);
+    }
   };
 
   return (
