@@ -8,7 +8,7 @@ from flask_jwt_extended import (
     JWTManager,
     get_jwt_identity
 )
-from models import User, db, TokenBlocklist
+from app.models import User, db, TokenBlocklist
 import datetime
 
 
