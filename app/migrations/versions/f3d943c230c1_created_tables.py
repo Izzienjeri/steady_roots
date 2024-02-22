@@ -1,8 +1,8 @@
 """created tables
 
-Revision ID: d4dd4d1062df
+Revision ID: f3d943c230c1
 Revises: 
-Create Date: 2024-02-18 18:41:58.460027
+Create Date: 2024-02-21 00:00:18.361642
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd4dd4d1062df'
+revision = 'f3d943c230c1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,8 +31,8 @@ def upgrade():
     sa.Column('end', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=False),
     sa.Column('mentor_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['mentor_id'], ['mentors.mentor_id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['mentor_id'], ['mentors.mentor_id'], name='mentee_mentor_fk'),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='mentee_user_fk'),
     sa.PrimaryKeyConstraint('mentee_id')
     )
     op.create_table('mentors',
@@ -41,16 +41,18 @@ def upgrade():
     sa.Column('skill_id', sa.String(), nullable=False),
     sa.Column('user_id', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['skill_id'], ['skills.skill_id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='mentor_user_fk'),
     sa.PrimaryKeyConstraint('mentor_id', 'skill_id')
     )
     op.create_table('skills',
     sa.Column('skill_id', sa.String(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
-    sa.Column('mentor_id', sa.String(), nullable=False),
-    sa.Column('mentee_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['mentee_id'], ['mentees.mentee_id'], ),
-    sa.ForeignKeyConstraint(['mentor_id'], ['mentors.mentor_id'], ),
+    sa.Column('mentor_id', sa.String(), nullable=True),
+    sa.Column('mentee_id', sa.String(), nullable=True),
+    sa.Column('user_id', sa.String(), nullable=False),
+    sa.ForeignKeyConstraint(['mentee_id'], ['mentees.mentee_id'], name='skill_mentee_fk'),
+    sa.ForeignKeyConstraint(['mentor_id'], ['mentors.mentor_id'], name='skill_mentor_fk'),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='skill_user_fk'),
     sa.PrimaryKeyConstraint('skill_id')
     )
     op.create_table('users',
@@ -70,7 +72,7 @@ def upgrade():
     sa.Column('start', sa.DateTime(), nullable=True),
     sa.Column('end', sa.DateTime(), nullable=True),
     sa.Column('qualification', sa.String(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='course_user_fk'),
     sa.PrimaryKeyConstraint('course_id')
     )
     op.create_table('events',
@@ -81,7 +83,7 @@ def upgrade():
     sa.Column('image', sa.String(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=False),
     sa.Column('approved', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='event_user_fk'),
     sa.PrimaryKeyConstraint('event_id')
     )
     op.create_table('experiences',
@@ -92,15 +94,15 @@ def upgrade():
     sa.Column('start', sa.DateTime(), nullable=True),
     sa.Column('end', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='experience_user_fk'),
     sa.PrimaryKeyConstraint('experience_id')
     )
     op.create_table('mailing_list',
     sa.Column('mailing_list_id', sa.String(), nullable=False),
     sa.Column('email_id', sa.String(), nullable=False),
     sa.Column('user_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['email_id'], ['emails.email_id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['email_id'], ['emails.email_id'], name='mailing_list_email_fk'),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='mailing_list_user_fk'),
     sa.PrimaryKeyConstraint('mailing_list_id')
     )
     op.create_table('memberships',
@@ -110,7 +112,7 @@ def upgrade():
     sa.Column('membership', sa.Boolean(), nullable=True),
     sa.Column('expires', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='membership_user_fk'),
     sa.PrimaryKeyConstraint('membership_id')
     )
     op.create_table('posts',
@@ -121,7 +123,7 @@ def upgrade():
     sa.Column('approved', sa.Boolean(), nullable=True),
     sa.Column('approved_by', sa.String(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='post_user_fk'),
     sa.PrimaryKeyConstraint('post_id')
     )
     op.create_table('profiles',
@@ -131,7 +133,7 @@ def upgrade():
     sa.Column('photo_url', sa.String(), nullable=True),
     sa.Column('password', sa.String(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='profile_user_fk'),
     sa.PrimaryKeyConstraint('profile_id')
     )
     op.create_table('tokenblocklist',

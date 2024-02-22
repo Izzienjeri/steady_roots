@@ -80,7 +80,7 @@ class LogoutResource(Resource):
     @jwt_required()
     def post(self):
         jwt_data = get_jwt()
-        blocked_token = TokenBlocklist(jti=jwt_data.get('jti'), created_at = datetime.utcnow())
+        blocked_token = TokenBlocklist(jti=jwt_data.get('jti'), created_at=datetime.datetime.utcnow())
         db.session.add(blocked_token)
         db.session.commit()
         data = {'message': 'Successfully logged out'}
