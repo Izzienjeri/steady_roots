@@ -13,6 +13,7 @@ import AppAppBar from "./modules/views/AppAppBar";
 import ApprovePosts from "./ApprovePosts";
 import CreatePosts from "./CreatePosts";
 import withRoot from "./modules/withRoot";
+import ManageUsers from "./ManageUsers";
 
 function Home() {
   return (
@@ -23,6 +24,7 @@ function Home() {
           <Route path="/" element={<ProductHero />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
         </Routes>

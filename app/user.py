@@ -49,7 +49,7 @@ class UserResource(Resource):
             return {'message': 'User updated successfully'}, 200
         else:
             return {'message': 'User not found'}, 404
-
+    @admin_required()
     def delete(self, user_id):
         user = User.query.get(user_id)
         if user:

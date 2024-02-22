@@ -3,6 +3,7 @@ from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db,Post
 from app.auth import jwt_required, get_jwt_identity
+from app.admin import admin_required
 
 post_bp=Blueprint('post_blueprint',__name__)
 api=Api(post_bp)
@@ -73,16 +74,16 @@ class PostResource(Resource):
         if post:
             post.title = data['title']
             post.description = data['description']
-            post.date_posted = data['date_posted']
+            post.date_posted = datetime.strptime(data['date_posted'], "%Y-%m-%d")
             post.approved = data['approved']
             post.approved_by = data['approved_by']
-            # Remove the line below if user_id is not supposed to be updated
-            # post.user_id = data['user_id']
+            
             db.session.commit()
             return {'message': 'Post updated successfully'}, 200
         else:
             return {'message': 'Post not found'}, 404
-    
+
+    @admin_required()
     @jwt_required()
     def delete(self, post_id):
         post = Post.query.get(post_id)

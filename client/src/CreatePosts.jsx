@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreatePosts = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  const notifySuccess = (message) => toast.success(message);
+  const notifyError = (message) => toast.error(message);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,11 +32,14 @@ const CreatePosts = () => {
         );
         setTitle("");
         setDescription("");
+        notifySuccess("Post created successfully!");
       } else {
         console.error("Failed to create post:", response.statusText);
+        notifyError("Failed to create post!");
       }
     } catch (error) {
       console.error("Error creating post:", error);
+      notifyError("Error creating post!");
     }
   };
 
@@ -60,6 +68,7 @@ const CreatePosts = () => {
         </div>
         <button type="submit">Create Post</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
