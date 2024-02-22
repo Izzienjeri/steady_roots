@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db, Event
-from app.auth import jwt_required
-from app.roles import admin_required
+from app.auth import jwt_required, get_jwt_identity
+from app.admin import admin_required
 
 
 event_bp=Blueprint('event_blueprint',__name__)
@@ -22,13 +22,13 @@ event_parser.add_argument('approved', type=bool, required=True, help='Event appr
 import time
 
 class EventListResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self):
-        events = Event.query.all()
+        events = Event.query.filter_by(user_id=get_jwt_identity() )
         return [{'id': event.event_id, 'name': event.name, 'description': event.description, 'date': int(time.mktime(event.date.timetuple())), 'image': event.image, 'approved': event.approved} for event in events]
 
-    @jwt_required
-    @admin_required 
+    @jwt_required()
+    @admin_required()
     def post(self):
         data = event_parser.parse_args()
         new_event = Event(name=data['name'], description=data['description'], date=data['date'], image=data['image'], user_id=data['user_id'], approved=data['approved'])
@@ -37,7 +37,7 @@ class EventListResource(Resource):
         return {'message': 'Event created successfully'}, 201
 
 class EventResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self, event_id):
         event = Event.query.get(event_id)
         if event:
@@ -45,8 +45,8 @@ class EventResource(Resource):
         else:
             return {'message': 'Event not found'}, 404
         
-    @jwt_required
-    @admin_required
+    @jwt_required()
+    @admin_required()
     def patch(self, event_id):
         data = event_parser.parse_args()
         event = Event.query.get(event_id)
@@ -62,8 +62,8 @@ class EventResource(Resource):
         else:
             return {'message': 'Event not found'}, 404
         
-    @jwt_required
-    @admin_required 
+    @jwt_required()
+     
     def delete(self, event_id):
         event = Event.query.get(event_id)
         if event:

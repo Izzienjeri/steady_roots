@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db, Skill
-from app.auth import jwt_required
+from app.auth import jwt_required, get_jwt_identity
 
 
 
@@ -10,16 +10,17 @@ api=Api(skill_bp)
 
 skill_parser = reqparse.RequestParser()
 skill_parser.add_argument('name', type=str, required=True, help='Name of the skill cannot be empty!')
-
+skill_parser.add_argument('mentor_id', type=str, default=None)
+skill_parser.add_argument('mentee_id', type=str, default=None)
 
 class SkillListResource(Resource):
 
-    @jwt_required
+    @jwt_required()
     def get(self):
-        skills = Skill.query.all()
+        skills = Skill.query.filter_by(user_id = get_jwt_identity).all()
         return [{'id': skill.skill_id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id} for skill in skills]
     
-    @jwt_required
+    @jwt_required()
     def post(self):
         data = skill_parser.parse_args()
         new_skill = Skill(name=data['name'])
@@ -29,18 +30,19 @@ class SkillListResource(Resource):
     
 
 class SkillResource(Resource):
-    @jwt_required
+
+    @jwt_required()
     def get(self, skill_id):
-        skill = Skill.query.get(skill_id)
+        skill = Skill.query.filter_by(skill_id=skill_id, user_id=get_jwt_identity()).first()
         if skill:
             return {'id': skill.skill_id, 'name': skill.name, 'mentor_id': skill.mentor_id, 'mentee_id': skill.mentee_id}
         else:
             return {'message': 'Skill not found'}, 404
         
-    @jwt_required
+    @jwt_required()
     def patch(self, skill_id):
         data = skill_parser.parse_args()
-        skill = Skill.query.get(skill_id)
+        skill = Skill.query.filter_by(skill_id=skill_id, user_id=get_jwt_identity()).first()
         if skill:
             skill.name = data['name']
             skill.mentor_id = data['mentor_id']
@@ -50,9 +52,9 @@ class SkillResource(Resource):
         else:
             return {'message': 'Skill not found'}, 404
     
-    @jwt_required
+    @jwt_required()
     def delete(self, skill_id):
-        skill = Skill.query.get(skill_id)
+        skill = Skill.query.filter_by(skill_id=skill_id, user_id=get_jwt_identity()).first()
         if skill:
             db.session.delete(skill)
             db.session.commit()

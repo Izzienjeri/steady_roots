@@ -2,6 +2,7 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
 from app.models import db,User
+from app.admin import admin_required
 
 user_bp=Blueprint('user_blueprint',__name__)
 api=Api(user_bp)
@@ -15,6 +16,8 @@ user_parser.add_argument('email_subscription', type=bool, default=False)
 
 
 class UserListResource(Resource):
+
+    @admin_required()
     def get(self):
         users = User.query.all()
         return [{'id': user.user_id, 'email': user.email, 'role': user.role, 'email_subscription': user.email_subscription} for user in users]

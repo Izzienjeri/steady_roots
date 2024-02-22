@@ -5,9 +5,12 @@ from flask_jwt_extended import (
     create_access_token,
     jwt_required,
     get_jwt,
-    JWTManager
+    JWTManager,
+    get_jwt_identity
 )
 from app.models import User, db, TokenBlocklist
+import datetime
+
 
 
 
@@ -69,20 +72,20 @@ class LoginResource(Resource):
             return make_response(jsonify({'message': 'Invalid email or password'}), 401)
 
         access_token = create_access_token(identity=user.user_id)
-        return make_response(jsonify({'access_token': access_token}))
-
+        return access_token
     
 
 class LogoutResource(Resource):
-    @jwt_required
+
+    @jwt_required()
     def post(self):
-        jti = get_jwt()['jti']
-        db.session.add(TokenBlocklist(jti=jti))
+        jwt_data = get_jwt()
+        blocked_token = TokenBlocklist(jti=jwt_data.get('jti'), created_at=datetime.datetime.utcnow())
+        db.session.add(blocked_token)
         db.session.commit()
         data = {'message': 'Successfully logged out'}
-        return make_response(jsonify(data))
+        return data 
 
 api.add_resource(SignupResource, '/signup')
 api.add_resource(LoginResource, '/login')
 api.add_resource(LogoutResource, '/logout')
-
