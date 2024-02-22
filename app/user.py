@@ -17,7 +17,6 @@ user_parser.add_argument('email_subscription', type=bool, default=False)
 
 class UserListResource(Resource):
 
-    @admin_required()
     def get(self):
         users = User.query.all()
         return [{'id': user.user_id, 'email': user.email, 'role': user.role, 'email_subscription': user.email_subscription} for user in users]
@@ -49,7 +48,6 @@ class UserResource(Resource):
             return {'message': 'User updated successfully'}, 200
         else:
             return {'message': 'User not found'}, 404
-    @admin_required()
     def delete(self, user_id):
         user = User.query.get(user_id)
         if user:

@@ -9,15 +9,16 @@ const ManageUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken"); // Get the token from local storage
       const response = await fetch("http://127.0.0.1:5555/users", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Include the token in the header
         },
       });
       if (response.ok) {
         const data = await response.json();
-        setUsers(data);
+        const normalUsers = data.filter((user) => user.role !== "admin");
+        setUsers(normalUsers);
       } else {
         console.error("Failed to fetch users:", response.statusText);
       }
@@ -28,11 +29,11 @@ const ManageUsers = () => {
 
   const deactivateUser = async (userId) => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken"); // Get the token from local storage
       const response = await fetch(`http://127.0.0.1:5555/users/${userId}`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Include the token in the header
         },
       });
       if (response.ok) {
@@ -51,7 +52,6 @@ const ManageUsers = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
             <th>Email</th>
             <th>Role</th>
             <th>Email Subscription</th>
@@ -61,7 +61,6 @@ const ManageUsers = () => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td>{user.id}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
               <td>
