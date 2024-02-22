@@ -83,8 +83,6 @@ class PostResource(Resource):
         else:
             return {'message': 'Post not found'}, 404
 
-    @admin_required()
-    @jwt_required()
     def delete(self, post_id):
         post = Post.query.get(post_id)
         if post:
