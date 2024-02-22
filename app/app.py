@@ -24,7 +24,7 @@ import os
 def create_app():
     app = Flask(__name__)
     jwt = JWTManager(app)
-    CORS(app)
+    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
     flask_secret_key = secrets.token_urlsafe(16)
     jwt_secret_key = secrets.token_urlsafe(32)
@@ -32,7 +32,9 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = flask_secret_key
     app.config['JWT_SECRET_KEY'] = jwt_secret_key
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=2)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=7)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
+
 
 
 
