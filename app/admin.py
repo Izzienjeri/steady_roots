@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import jsonify
+from flask import jsonify, make_response
 from app.models import User
 from flask_jwt_extended import verify_jwt_in_request, get_jwt
 
@@ -9,10 +9,11 @@ def admin_required():
         def decorator(*args, **kwargs):
             verify_jwt_in_request()
             claims = get_jwt()
-            if claims["role"] == "admin":
+            role = claims.get("role")  # Use get method to safely access 'role' key
+            if role == "admin":
                 return fn(*args, **kwargs)
             else:
-                return jsonify(msg="Admins only!"), 403
+                return make_response(jsonify(msg="Admins only!"), 403)
 
         return decorator
 
