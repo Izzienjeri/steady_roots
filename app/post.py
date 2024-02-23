@@ -33,7 +33,7 @@ class PostListResource(Resource):
                 'id': post.post_id,
                 'title': post.title,
                 'description': post.description,
-                'date_posted': post.date_posted.strftime("%Y-%m-%d"),  # Format date as string (YYYY-MM-DD)
+                'date_posted': post.date_posted.strftime("%Y-%m-%d"),  
                 'approved': post.approved,
                 'approved_by': post.approved_by,
                 'user_id': post.user_id
@@ -48,9 +48,9 @@ class PostListResource(Resource):
             title=data['title'],
             description=data['description'],
             date_posted=datetime.now(),
-            approved=data['approved'],  # Assuming default approval status comes from frontend
-            approved_by=None,  # Assuming initially no one approves the post
-            user_id=get_jwt_identity()  # Assuming you have a function to get user identity
+            approved=data['approved'], 
+            approved_by=None,  
+            user_id=get_jwt_identity()  
         )
         db.session.add(new_post)
         db.session.commit()
