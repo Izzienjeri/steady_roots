@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
-const courses = () => {
+const Course = () => {
     const [courses, setCourses] = useState([]);
     const [newCourse, setNewCourse] = useState({
         name: '',
@@ -9,7 +8,7 @@ const courses = () => {
         level: '',
         start: '',
         end: '',
-        qualification: '',
+        qualification: ''
     });
 
     useEffect(() => {
@@ -17,9 +16,14 @@ const courses = () => {
     }, []);
 
     const fetchData = () => {
-        axios.get('http://localhost:5555/courses')
-            .then(response => {
-                setCourses(response.data);
+        fetch('http://localhost:5000/courses', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setCourses(data);
             })
             .catch(error => {
                 console.error('Error fetching courses:', error);
@@ -27,41 +31,62 @@ const courses = () => {
     };
 
     const addCourse = () => {
-        axios.post('/courses', newCourse)
-            .then(response => {
-                console.log('Course added successfully:', response.data);
-                fetchData(); 
-            })
-            .catch(error => {
-                console.error('Error adding course:', error);
-            });
+        fetch('http://localhost:5000/courses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify(newCourse)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Course added successfully:', data);
+            fetchData();
+        })
+        .catch(error => {
+            console.error('Error adding course:', error);
+        });
     };
 
     const updateCourse = (courseId, updatedData) => {
-        axios.patch(`/courses/${courseId}`, updatedData)
-            .then(response => {
-                console.log('Course updated successfully:', response.data);
-                fetchData(); 
-            })
-            .catch(error => {
-                console.error('Error updating course:', error);
-            });
+        fetch(`http://localhost:5000/courses/${courseId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify(updatedData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Course updated successfully:', data);
+            fetchData();
+        })
+        .catch(error => {
+            console.error('Error updating course:', error);
+        });
     };
 
     const deleteCourse = (courseId) => {
-        axios.delete(`/courses/${courseId}`)
-            .then(response => {
-                console.log('Course deleted successfully:', response.data);
-                fetchData(); 
-            })
-            .catch(error => {
-                console.error('Error deleting course:', error);
-            });
+        fetch(`http://localhost:5000/courses/${courseId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Course deleted successfully:', data);
+            fetchData();
+        })
+        .catch(error => {
+            console.error('Error deleting course:', error);
+        });
     };
 
     return (
         <div>
-            
             <input
                 type="text"
                 value={newCourse.name}
@@ -69,16 +94,16 @@ const courses = () => {
                 placeholder="Course Name"
             />
             
-
             <button onClick={addCourse}>Add Course</button>
-
             
+        
             <ul>
                 {courses.map(course => (
                     <li key={course.id}>
                         {course.name}
                         
-                        <button onClick={() => updateCourse(course.id, {})}>Update</button>
+                        <button onClick={() => updateCourse(course.id, { /* updated data here */ })}>Update</button>
+                        
                         <button onClick={() => deleteCourse(course.id)}>Delete</button>
                     </li>
                 ))}
@@ -87,4 +112,4 @@ const courses = () => {
     );
 };
 
-export default courses;
+export default Course;
