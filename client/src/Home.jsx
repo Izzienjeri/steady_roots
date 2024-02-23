@@ -14,6 +14,7 @@ import ApprovePosts from "./ApprovePosts";
 import CreatePosts from "./CreatePosts";
 import withRoot from "./modules/withRoot";
 import ManageUsers from "./ManageUsers";
+import SendEmail from "./SendEmail";
 
 function Home() {
   return (
@@ -24,6 +25,7 @@ function Home() {
           <Route path="/" element={<ProductHero />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/sendemail" element={<SendEmail />} />
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
