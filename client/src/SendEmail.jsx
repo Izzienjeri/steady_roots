@@ -58,10 +58,7 @@ const SendEmail = () => {
               <label>Body:</label>
               <Field as="textarea" name="body" required />
             </div>
-            <div>
-              <label>Sender Email:</label>
-              <Field type="email" name="sender_email" required />
-            </div>
+
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Sending..." : "Send Email"}
             </button>

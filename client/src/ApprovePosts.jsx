@@ -107,11 +107,7 @@ const ApprovePosts = () => {
             <div>Description: {post.description}</div>
             <div>Date Posted: {post.date_posted}</div>
             {!showApproved && (
-              <>
-                <div>Approved: {post.approved ? "Yes" : "No"}</div>
-                <div>Approved By: {post.approved_by}</div>
-                <button onClick={() => approvePost(post.id)}>Approve</button>
-              </>
+              <button onClick={() => approvePost(post.id)}>Approve</button>
             )}
             <button onClick={() => deletePost(post.id)}>Delete</button>
           </li>
