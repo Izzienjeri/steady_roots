@@ -26,11 +26,6 @@ from datetime import datetime
 class PostListResource(Resource):
     @jwt_required()
     def get(self):
-<<<<<<< HEAD
-
-        posts = Post.query.filter_by(user_id=get_jwt_identity() )
-        return [{'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': int(time.mktime(post.date_posted.timetuple())), 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id} for post in posts]
-=======
         posts = Post.query.all()
         formatted_posts = []
         for post in posts:
@@ -45,7 +40,6 @@ class PostListResource(Resource):
             }
             formatted_posts.append(formatted_post)
         return formatted_posts
->>>>>>> e57ba71a333452e9cf49fe1c6dea6760e7d0fb02
 
     @jwt_required()
     def post(self):
