@@ -53,7 +53,7 @@ function SignIn() {
         if (userData.role === "admin") {
           Navigate("/approveposts");
         } else {
-          Navigate("/createposts");
+          Navigate("/experiences");
         }
       } else {
         console.error("Signin failed");
