@@ -1,7 +1,20 @@
-from flask import Blueprint
+from flask import Flask, Blueprint, jsonify, make_response
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Mentor
+from app.models import db,Mentor,Mentee
 from app.auth import get_jwt_identity, jwt_required
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema,auto_field
+
+
+class MentorSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Mentor
+mentor_schema = MentorSchema()
+
+class MenteeSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Mentee
+mentee_schema = MenteeSchema()
+
 
 mentor_bp=Blueprint('mentor_blueprint',__name__)
 api=Api(mentor_bp)
@@ -29,11 +42,26 @@ class MentorListResource(Resource):
 class MentorResource(Resource):
     @jwt_required()
     def get(self, mentor_id):
-        mentor = Mentor.query.get(mentor_id)
-        if mentor:
-            return {'id': mentor.mentor_id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id}
+        mentor = Mentor.query.filter_by(mentor_id=mentor_id).first()
+
+        if mentor is None:
+            response = make_response(
+                jsonify({"error": "Mentor not found"}),
+                404
+            )
+            return response
+
         else:
-            return {'message': 'Mentor not found'}, 404
+            mentees = mentee_schema.dump(mentor.mentees, many=True)
+
+            response = make_response(
+                jsonify({
+                    "mentor": mentor_schema.dump(mentor),
+                    "mentees": mentees
+                }),
+                200
+            )
+            return response
     
     @jwt_required()
     def patch(self, mentor_id):
