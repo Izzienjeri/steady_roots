@@ -35,7 +35,7 @@ const ApprovePosts = () => {
   const approvePost = async (postId) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch(`http://127.0.0.1:5555/posts/${postId}`, {
+      const response = await fetch(`http://127.0.0.1:5000/posts/${postId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

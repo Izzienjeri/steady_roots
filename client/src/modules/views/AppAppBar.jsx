@@ -43,6 +43,14 @@ function AppAppBar() {
 						>
 							{"Sign Up"}
 						</Link>
+						<Link
+							variant="h6"
+							underline="none"
+							href="/posts"
+							sx={{ ...rightLink, color: "secondary.main" }}
+						>
+							{"post"}
+						</Link>
 					</Box>
 				</Toolbar>
 			</AppBar>
