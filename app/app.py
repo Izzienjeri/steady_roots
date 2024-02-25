@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from app.extensions import mail
 from app.models import db
 from app.auth import auth_bp, bcrypt
 from app.mentor import mentor_bp
@@ -17,6 +16,7 @@ from app.event import event_bp
 from app.course import course_bp
 from app.skill import skill_bp
 from datetime import timedelta
+from app.extensions import mail
 import secrets
 import os
 
