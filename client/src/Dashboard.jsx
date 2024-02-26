@@ -5,6 +5,8 @@ import Header2 from "./Header2";
 import Navigator2 from "./Navigator2";
 import CreatePosts from "./CreatePosts";
 import Experience from "./Experience";
+import Skill from "./Skill";
+import Courses from "./courses";
 
 function Dashboard() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -21,6 +23,9 @@ function Dashboard() {
         <Routes>
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/experiences" element={<Experience />} />
+          <Route path="/courses" element={<Courses/>} />
+          <Route path="/skills" element={<Skill/>} />
+          
         </Routes>
       </Paperbase2>
     </React.Fragment>

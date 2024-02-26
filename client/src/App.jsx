@@ -18,6 +18,9 @@ import SendEmail from "./SendEmail";
 import AdminDashboard from "./AdminDashboard";
 import Experience from "./Experience";
 import Dashboard from "./Dashboard";
+import Courses from "./courses";
+import Skill from "./Skill";
+
 
 function App() {
   return (
@@ -35,6 +38,10 @@ function App() {
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/skills" element={<Skill/>} />
+          
+
         </Routes>
         <ProductValues />
         <ProductCategories />
