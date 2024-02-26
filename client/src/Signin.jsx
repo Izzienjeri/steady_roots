@@ -44,14 +44,13 @@ function SignIn() {
 
       if (response.ok) {
         const userData = await response.json();
-        console.log("User data:", userData); // Log userData to see its structure
+        console.log("User data:", userData);
 
-        // Set access token and role in localStorage
         localStorage.setItem("accessToken", userData.access_token);
         localStorage.setItem("userRole", userData.role);
 
         if (userData.role === "admin") {
-          Navigate("/approveposts");
+          Navigate("/admindashboard");
         } else {
           Navigate("/createposts");
         }
