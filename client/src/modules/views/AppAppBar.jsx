@@ -4,6 +4,9 @@ import Link from "@mui/material/Link";
 import AppBar from "../components/AppBar";
 import Toolbar from "../components/Toolbar";
 
+
+
+
 const rightLink = {
   fontSize: 16,
   color: "common.white",
@@ -43,6 +46,15 @@ function AppAppBar() {
             >
               {"Sign Up"}
             </Link>
+            <Link
+              variant="h6"
+              underline="none"
+              href="/courses"
+              sx={{ ...rightLink, color: "secondary.main" }}
+            >
+              
+            </Link>
+
           </Box>
         </Toolbar>
       </AppBar>
