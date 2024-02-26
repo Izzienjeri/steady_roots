@@ -1,16 +1,29 @@
-import React from "react";
-import Paperbase from "./Paperbase"; // Import your Paperbase component here
-import Header from "./Header"; // Import your Header component here
-import Navigator from "./Navigator"; // Import your Navigator component here
-import Content from "./Content"; // Import your Content component here
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Paperbase from "./Paperbase";
+import Header from "./Header";
+import Navigator from "./Navigator";
+import ManageUsers from "./ManageUsers";
+import SendEmail from "./SendEmail";
+import ApprovePosts from "./ApprovePosts";
 
 function AdminDashboard() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
   return (
     <React.Fragment>
-      <Header />
+      <Header onDrawerToggle={handleDrawerToggle} />
       <Navigator />
       <Paperbase>
-        <Content />
+        <Routes>
+          <Route path="/manageusers" element={<ManageUsers />} />
+          <Route path="sendemail" element={<SendEmail />} />
+          <Route path="/approveposts" element={<ApprovePosts />} />
+        </Routes>
       </Paperbase>
     </React.Fragment>
   );

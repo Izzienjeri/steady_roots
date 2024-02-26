@@ -29,7 +29,6 @@ function SignIn() {
 
     return errors;
   };
-
   const handleSubmit = async (values) => {
     setSent(true);
 
@@ -44,15 +43,26 @@ function SignIn() {
 
       if (response.ok) {
         const userData = await response.json();
-        console.log("User data:", userData); // Log userData to see its structure
+        console.log("User data:", userData);
 
         localStorage.setItem("accessToken", userData.access_token);
         localStorage.setItem("userRole", userData.role);
 
+        // Check user role and redirect accordingly
         if (userData.role === "admin") {
           Navigate("/admindashboard");
+<<<<<<< HEAD
         } else {
           Navigate("/experiences");
+=======
+        } else if (userData.role === "user") {
+          Navigate("/dashboard");
+        } else {
+          // Fallback: Redirect to a default dashboard or display error message
+          console.error("Unknown user role:", userData.role);
+          // Navigate("/defaultdashboard");
+          // Or display error message
+>>>>>>> 9b2847a381ae62c55b7e6efe98c9f9a0f21cee60
         }
       } else {
         console.error("Signin failed");
@@ -63,7 +73,6 @@ function SignIn() {
       setSent(false);
     }
   };
-
   return (
     <React.Fragment>
       <AppAppBar />

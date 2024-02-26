@@ -8,35 +8,23 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
-
+import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import HomeIcon from "@mui/icons-material/Home";
-import PeopleIcon from "@mui/icons-material/People";
-import DnsRoundedIcon from "@mui/icons-material/DnsRounded";
 import PermMediaOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActual";
-import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 
 const categories = [
   {
     id: "Build",
     children: [
       {
-        id: "Manage Users",
-        icon: <PeopleIcon />,
-        path: "/manageusers",
-      },
-      {
-        id: "Send Email",
-        icon: <DnsRoundedIcon />,
-        path: "/sendemail",
-      },
-      {
-        id: "Posts Approval",
+        id: "Posts",
         icon: <PermMediaOutlinedIcon />,
-        path: "/approveposts",
+        path: "/createposts",
       },
       {
-        id: "Events",
-        icon: <SettingsInputComponentIcon />,
+        id: "Experience",
+        icon: <SettingsEthernetIcon />,
+        path: "/experiences",
       },
     ],
   },
@@ -57,7 +45,7 @@ const itemCategory = {
   px: 3,
 };
 
-export default function Navigator(props) {
+export default function Navigator2(props) {
   const { ...other } = props;
 
   return (
@@ -72,7 +60,7 @@ export default function Navigator(props) {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText>Admin DashBoard</ListItemText>
+          <ListItemText> DashBoard</ListItemText>
         </ListItem>
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: "#101F33" }}>
@@ -82,7 +70,6 @@ export default function Navigator(props) {
             {children.map(({ id: childId, icon, path }) => (
               <ListItem disablePadding key={childId} component={Link} to={path}>
                 {" "}
-                {/* Add Link component and path */}
                 <ListItemButton sx={item}>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>

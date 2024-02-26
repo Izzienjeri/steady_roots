@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
-function Header(props) {
+function Header2(props) {
   const { onDrawerToggle } = props;
 
   return (
@@ -50,7 +50,7 @@ function Header(props) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Manage Users
+                Posts
               </Typography>
             </Grid>
           </Grid>
@@ -66,8 +66,8 @@ function Header(props) {
   );
 }
 
-Header.propTypes = {
+Header2.propTypes = {
   onDrawerToggle: PropTypes.func.isRequired,
 };
 
-export default Header;
+export default Header2;
