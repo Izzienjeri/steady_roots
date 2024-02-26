@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import { useFormik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CreatePosts = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const initialValues = {
+    title: "",
+    description: "",
+    image: "",
+  };
 
-  const notifySuccess = (message) => toast.success(message);
-  const notifyError = (message) => toast.error(message);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (values) => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await fetch("http://127.0.0.1:5555/posts", {
@@ -20,52 +20,57 @@ const CreatePosts = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title,
-          description,
+          ...values,
           date_posted: new Date().toISOString(),
           approved: false,
         }),
       });
       if (response.ok) {
-        console.log(
-          "Post created successfully, please wait for admin approval."
-        );
-        setTitle("");
-        setDescription("");
-        notifySuccess("Post created successfully!");
+        console.log("Post created successfully");
+        formik.resetForm();
+        toast.success("Post created successfully!");
       } else {
         console.error("Failed to create post:", response.statusText);
-        notifyError("Failed to create post!");
+        toast.error("Failed to create post!");
       }
     } catch (error) {
       console.error("Error creating post:", error);
-      notifyError("Error creating post!");
+      toast.error("Error creating post!");
     }
   };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+  });
 
   return (
     <div>
       <h2>Create New Post</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
+      <form onSubmit={formik.handleSubmit}>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Title"
+          {...formik.getFieldProps("title")}
+          required
+        />
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Description"
+          {...formik.getFieldProps("description")}
+          required
+        />
+        <input
+          type="text"
+          id="image"
+          name="image"
+          placeholder="Image URL"
+          {...formik.getFieldProps("image")}
+          required
+        />
         <button type="submit">Create Post</button>
       </form>
       <ToastContainer />

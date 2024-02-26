@@ -160,6 +160,7 @@ class Post(db.Model, SerializerMixin):
     post_id = db.Column(db.String, primary_key=True, default=generate_uuid)
     title = db.Column(db.String)
     description = db.Column(db.String)
+    image = db.Column(db.String)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     approved = db.Column(db.Boolean)
     approved_by = db.Column(db.String)

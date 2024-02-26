@@ -106,6 +106,7 @@ const ApprovePosts = () => {
             <div>Title: {post.title}</div>
             <div>Description: {post.description}</div>
             <div>Date Posted: {post.date_posted}</div>
+            {post.image && <img src={post.image} alt="Post" />}{" "}
             {!showApproved && (
               <button onClick={() => approvePost(post.id)}>Approve</button>
             )}
