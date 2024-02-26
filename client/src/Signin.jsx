@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
@@ -44,16 +43,25 @@ function SignIn() {
       });
 
       if (response.ok) {
-        // Signin successful, navigate to a new page or perform other actions
-        Navigate("/dashboard"); // Example: navigate to the dashboard page
+        const userData = await response.json();
+        console.log("User data:", userData); // Log userData to see its structure
+
+        // Set access token and role in localStorage
+        localStorage.setItem("accessToken", userData.access_token);
+        localStorage.setItem("userRole", userData.role);
+
+        if (userData.role === "admin") {
+          Navigate("/approveposts");
+        } else {
+          Navigate("/experiences");
+        }
       } else {
-        // Handle signin failure
-        // Show error message or perform other actions
         console.error("Signin failed");
       }
     } catch (error) {
-      // Handle any network errors or other exceptions
       console.error("Error occurred:", error);
+    } finally {
+      setSent(false);
     }
   };
 

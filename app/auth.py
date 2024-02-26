@@ -3,6 +3,7 @@ from flask_restful import Resource, Api, reqparse
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import (
     create_access_token,
+    create_refresh_token,
     jwt_required,
     get_jwt,
     JWTManager,
@@ -23,6 +24,8 @@ api = Api(auth_bp)
 signup_parser = reqparse.RequestParser()
 signup_parser.add_argument('email', type=str, required=True, help='Email is required')
 signup_parser.add_argument('password', type=str, required=True, help='Password is required')
+signup_parser.add_argument('role', type=str, required=False, help='Role is optional')
+
 
 login_parser = reqparse.RequestParser()
 login_parser.add_argument('email', type=str, required=True, help='Email is required')
@@ -40,25 +43,34 @@ def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
     token = db.session.query(TokenBlocklist).filter_by(jti=jti).first()
     return True if token else False
 
-class SignupResource(Resource):
+@jwt.additional_claims_loader
+def add_claims_to_access_token(identity):
+    user = User.query.filter_by (id = identity).first()
+    return {"roles": user.role, "email": user.email} 
 
+class SignupResource(Resource):
     def post(self):
         args = signup_parser.parse_args()
         email = args['email']
         password = args['password']
-        
+        role = args.get('role', 'user')  
+
+       
+        if role not in ['user', 'admin']:
+            return make_response(jsonify({'message': 'Invalid role provided'}), 400)
 
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             return make_response(jsonify({'message': 'Email already exists'}), 409)
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        new_user = User(email=email, password=hashed_password)
+        new_user = User(email=email, password=hashed_password, role=role)  # Assign role here
         db.session.add(new_user)
         db.session.commit()
 
         access_token = create_access_token(identity=new_user.user_id)
         return make_response(jsonify({'access_token': access_token}), 201)
+
 
     
 class LoginResource(Resource):
@@ -72,7 +84,10 @@ class LoginResource(Resource):
             return make_response(jsonify({'message': 'Invalid email or password'}), 401)
 
         access_token = create_access_token(identity=user.user_id)
-        return access_token
+        refresh_token = create_refresh_token(identity=user.user_id)
+
+        return jsonify({'access_token': access_token, 'refresh_token': refresh_token, 'role': user.role})
+
     
 
 class LogoutResource(Resource):

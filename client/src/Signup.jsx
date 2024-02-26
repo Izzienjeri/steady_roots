@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [sent, setSent] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const Navigate = useNavigate();
 
   const validate = (values) => {
@@ -36,23 +37,33 @@ function SignUp() {
 
   const handleSubmit = async (values) => {
     setSent(true);
-    // Make an HTTP request to your backend signup endpoint
+    setError(null);
+
+    const { role, ...formData } = values;
+    const formDataWithRole = role ? { ...formData, role } : formData;
     try {
       const response = await fetch("http://127.0.0.1:5555/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(formDataWithRole),
       });
-      const data = await response.json();
-      // Assuming your backend returns some data upon successful signup
-      console.log(data);
-      // Redirect to the signin page after successful signup
-      Navigate("/signin");
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        Navigate("/signin");
+      } else if (response.status === 409) {
+        const errorData = await response.json();
+        setError(errorData.message);
+      } else {
+        throw new Error("Email already");
+      }
     } catch (error) {
       console.error("Error:", error);
-      // Handle error appropriately, e.g., display error message to the user
+    } finally {
+      setSent(false);
     }
   };
 
@@ -128,6 +139,15 @@ function SignUp() {
                 type="password"
                 margin="normal"
               />
+              <Field
+                fullWidth
+                component={RFTextField}
+                disabled={submitting || sent}
+                name="role"
+                label="Role"
+                margin="normal"
+              />
+
               <FormSpy subscription={{ submitError: true }}>
                 {({ submitError }) =>
                   submitError ? (

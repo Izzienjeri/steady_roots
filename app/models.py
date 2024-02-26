@@ -52,8 +52,8 @@ class Experience(db.Model, SerializerMixin):
     organisation = db.Column(db.String)
     job_title = db.Column(db.String)
     description = db.Column(db.String)
-    start = db.Column(db.DateTime, default=datetime.utcnow)
-    end = db.Column(db.DateTime, default=datetime.utcnow)
+    start = db.Column(db.DateTime, default=datetime.fromisoformat)
+    end = db.Column(db.DateTime, default=datetime.fromisoformat)
     user_id = db.Column(db.String, db.ForeignKey("users.user_id", name="experience_user_fk"), nullable=False)
 
     serialize_only = ('experience_id', 'organisation', 'job_title', 'description', 'start', 'end')

@@ -13,7 +13,8 @@ flask-migrate = "*"
 sqlalchemy-serializer = "*"
 flask-cors = "*"
 flask-bcrypt = "*"
-marshmallow-sqlalchemy = "*"
+flask-mail = "*"
+requests = "*"
 
 [dev-packages]
 

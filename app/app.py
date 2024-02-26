@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from app.extensions import mail
 from app.models import db
 from app.auth import auth_bp, bcrypt
 from app.mentor import mentor_bp
@@ -10,8 +11,7 @@ from app.profile import profile_bp
 from app.post import post_bp
 from app.mentee import mentee_bp
 from app.membership import membership_bp
-from app.mailinglist import MailingList_bp
-from app.mail import email_bp
+from app.mail import mail_bp
 from app.experience import experience_bp
 from app.event import event_bp
 from app.course import course_bp
@@ -24,7 +24,8 @@ import os
 def create_app():
     app = Flask(__name__)
     jwt = JWTManager(app)
-    CORS(app)
+    CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+    
 
     flask_secret_key = secrets.token_urlsafe(16)
     jwt_secret_key = secrets.token_urlsafe(32)
@@ -32,7 +33,19 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = flask_secret_key
     app.config['JWT_SECRET_KEY'] = jwt_secret_key
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=2)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=7)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
+
+
+    
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'letsgetcrazy4life@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'izxl rxob zjww fljs'
+
+    
+
 
 
 
@@ -44,6 +57,7 @@ def create_app():
     bcrypt.init_app(app)
 
     migrate = Migrate(app, db)
+    
 
  
    
@@ -55,11 +69,11 @@ def create_app():
     app.register_blueprint(post_bp)
     app.register_blueprint(mentee_bp)
     app.register_blueprint(membership_bp)
-    app.register_blueprint(MailingList_bp)
-    app.register_blueprint(email_bp)
+    app.register_blueprint(mail_bp)
     app.register_blueprint(experience_bp)
     app.register_blueprint(event_bp)
     app.register_blueprint(course_bp)
     app.register_blueprint(skill_bp)
+    mail.init_app(app)
 
     return app
