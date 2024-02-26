@@ -35,6 +35,7 @@ const ApprovePosts = () => {
   const approvePost = async (postId) => {
     try {
       const token = localStorage.getItem("accessToken");
+      const postToUpdate = posts.find((post) => post.id === postId);
       const response = await fetch(`http://127.0.0.1:5555/posts/${postId}`, {
         method: "PATCH",
         headers: {
@@ -42,9 +43,9 @@ const ApprovePosts = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title: "Updated Title",
-          description: "Updated Description",
-          date_posted: "2024-02-23",
+          title: postToUpdate.title,
+          description: postToUpdate.description,
+          date_posted: postToUpdate.date_posted,
           approved: true,
           approved_by: "Admin",
         }),
@@ -106,7 +107,6 @@ const ApprovePosts = () => {
             <div>Title: {post.title}</div>
             <div>Description: {post.description}</div>
             <div>Date Posted: {post.date_posted}</div>
-            {post.image && <img src={post.image} alt="Post" />}{" "}
             {!showApproved && (
               <button onClick={() => approvePost(post.id)}>Approve</button>
             )}

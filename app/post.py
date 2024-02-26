@@ -1,20 +1,26 @@
+
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from app.models import db, Post
+from app.models import db,Post
 from app.auth import jwt_required, get_jwt_identity
+from app.admin import admin_required
 
-post_bp = Blueprint('post_blueprint', __name__)
-api = Api(post_bp)
+post_bp=Blueprint('post_blueprint',__name__)
+api=Api(post_bp)
+
+
 
 post_parser = reqparse.RequestParser()
 post_parser.add_argument('title', type=str, required=True, help='Post title is required')
 post_parser.add_argument('description', type=str, required=True, help='Post description is required')
-post_parser.add_argument('image', type=str, required=True, help='Post image URL is required')
 post_parser.add_argument('date_posted', type=str, required=True, help='Date posted is required')
 post_parser.add_argument('approved', type=bool, required=True, help='Approval status is required')
 post_parser.add_argument('approved_by', type=str, required=False, help='Approved by')
 
+
+
 import time
+
 from datetime import datetime
 
 class PostListResource(Resource):
@@ -27,7 +33,6 @@ class PostListResource(Resource):
                 'id': post.post_id,
                 'title': post.title,
                 'description': post.description,
-                'image': post.image,
                 'date_posted': post.date_posted.strftime("%Y-%m-%d"),  
                 'approved': post.approved,
                 'approved_by': post.approved_by,
@@ -42,7 +47,6 @@ class PostListResource(Resource):
         new_post = Post(
             title=data['title'],
             description=data['description'],
-            image=data['image'],  # Add image field
             date_posted=datetime.now(),
             approved=data['approved'], 
             approved_by=None,  
@@ -52,12 +56,14 @@ class PostListResource(Resource):
         db.session.commit()
         return {'message': 'Post created successfully'}, 201
 
+
+
 class PostResource(Resource):
     @jwt_required()
     def get(self, post_id):
         post = Post.query.get(post_id)
         if post:
-            return {'id': post.post_id, 'title': post.title, 'description': post.description, 'image': post.image, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id}
+            return {'id': post.post_id, 'title': post.title, 'description': post.description, 'date_posted': post.date_posted, 'approved': post.approved, 'approved_by': post.approved_by, 'user_id': post.user_id}
         else:
             return {'message': 'Post not found'}, 404
     
@@ -69,7 +75,6 @@ class PostResource(Resource):
             post.title = data['title']
             post.description = data['description']
             post.date_posted = datetime.strptime(data['date_posted'], "%Y-%m-%d")
-            post.image = data['image']  # Update image field
             post.approved = data['approved']
             post.approved_by = data['approved_by']
             
@@ -88,4 +93,4 @@ class PostResource(Resource):
             return {'message': 'Post not found'}, 404
         
 api.add_resource(PostListResource, '/posts')
-api.add_resource(PostResource, '/posts/<string:post_id>')
+api.add_resource(PostResource, '/posts/<string:post_id>')        
