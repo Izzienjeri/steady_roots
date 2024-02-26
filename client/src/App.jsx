@@ -17,6 +17,7 @@ import ManageUsers from "./ManageUsers";
 import SendEmail from "./SendEmail";
 import AdminDashboard from "./AdminDashboard";
 import Experience from "./Experience";
+import Dashboard from "./Dashboard";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
           <Route path="/" element={<ProductHero />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="experiences" element={<Experience />} />
+          <Route path="/experiences" element={<Experience />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/sendemail" element={<SendEmail />} />
           <Route path="/manageusers" element={<ManageUsers />} />
