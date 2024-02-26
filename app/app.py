@@ -32,6 +32,12 @@ def create_app():
     app.config['SECRET_KEY'] = flask_secret_key
     app.config['JWT_SECRET_KEY'] = jwt_secret_key
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=7)
+<<<<<<< HEAD
+=======
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+
+
+>>>>>>> dcfdf4a35a5b2e69aa1c2aece313a37d6ba9da93
     
     # Mail Configuration
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
