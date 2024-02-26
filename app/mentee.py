@@ -1,7 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Mentee
+from app.models import db,Mentee,Mentor, User
 from app.auth import jwt_required, get_jwt_identity
+from datetime import datetime
 
 mentee_bp=Blueprint('mentee_blueprint',__name__)
 api=Api(mentee_bp)
@@ -21,11 +22,24 @@ mentee_parser.add_argument('mentor_id', type=str, required=True, help='Mentor ID
 import time
 
 class MenteeListResource(Resource):
-
-    @jwt_required()
+    # @jwt_required()
     def get(self):
-        mentees = Mentee.query.filter_by(user_id=get_jwt_identity() )
-        return [{'id': mentee.mentee_id, 'start': int(time.mktime(mentee.start.timetuple())), 'end': int(time.mktime(mentee.end.timetuple())), 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id} for mentee in mentees]
+        mentees = Mentee.query.all()
+        mentee_data = []
+        for mentee in mentees:
+            mentor = Mentor.query.filter_by(mentor_id=mentee.mentor_id).first()
+            if mentor:
+                mentee_data.append({
+                    'id': mentee.mentee_id,
+                    'start': int(time.mktime(mentee.start.timetuple())),
+                    'end': int(time.mktime(mentee.end.timetuple())),
+                    'user_id': mentee.user_id,
+                    'mentor_id': mentee.mentor_id,
+                    'mentor_name': mentor.description
+                })
+        return mentee_data
+
+
 
     def post(self):
         data = mentee_parser.parse_args()
@@ -35,15 +49,26 @@ class MenteeListResource(Resource):
         return {'message': 'Mentee created successfully'}, 201
 
 class MenteeResource(Resource):
-    @jwt_required()
+    # @jwt_required()
     def get(self, mentee_id):
         mentee = Mentee.query.get(mentee_id)
         if mentee:
-            return {'id': mentee.mentee_id, 'start': mentee.start, 'end': mentee.end, 'user_id': mentee.user_id, 'mentor_id': mentee.mentor_id}
+            # Convert datetime objects to ISO format strings
+            start_iso = mentee.start.isoformat()
+            end_iso = mentee.end.isoformat()
+
+            return {
+                'id': mentee.mentee_id,
+                'start': start_iso,
+                'end': end_iso,
+                'user_id': mentee.user_id,
+                'mentor_id': mentee.mentor_id
+            }
         else:
             return {'message': 'Mentee not found'}, 404
+
     
-    @jwt_required()
+    #@jwt_required()
     def patch(self, mentee_id):
         data = mentee_parser.parse_args()
         mentee = Mentee.query.get(mentee_id)
@@ -57,7 +82,7 @@ class MenteeResource(Resource):
         else:
             return {'message': 'Mentee not found'}, 404
     
-    @jwt_required()
+    #@jwt_required()
     def delete(self, mentee_id):
         mentee = Mentee.query.get(mentee_id)
         if mentee:

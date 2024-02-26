@@ -27,11 +27,16 @@ mentor_parser.add_argument('user_id', type=str, required=True, help='User ID is 
 
 
 class MentorListResource(Resource):
-    @jwt_required()
+    #@jwt_required()
     def get(self):
-        mentors = Mentor.query.filter_by(user_id=get_jwt_identity() )
-        return [{'id': mentor.mentor_id, 'description': mentor.description, 'skill_id': mentor.skill_id, 'user_id': mentor.user_id} for mentor in mentors]
-
+        mentors = Mentor.query.all()
+        return [{
+            'id': mentor.mentor_id, 
+            'description': mentor.description, 
+            'skill_id': mentor.skill_id, 
+            'user_id': mentor.user_id
+        } for mentor in mentors]
+    
     def post(self):
         data = mentor_parser.parse_args()
         new_mentor = Mentor(description=data['description'], skill_id=data['skill_id'], user_id=data['user_id'])
@@ -40,7 +45,8 @@ class MentorListResource(Resource):
         return {'message': 'Mentor created successfully'}, 201
 
 class MentorResource(Resource):
-    @jwt_required()
+   # @jwt_required()
+    
     def get(self, mentor_id):
         mentor = Mentor.query.filter_by(mentor_id=mentor_id).first()
 
@@ -52,18 +58,19 @@ class MentorResource(Resource):
             return response
 
         else:
-            mentees = mentee_schema.dump(mentor.mentees, many=True)
+            mentees = Mentee.query.filter_by(mentor_id=mentor_id).all()
+            mentees = [mentee.to_dict() for mentee in mentees]
 
             response = make_response(
                 jsonify({
-                    "mentor": mentor_schema.dump(mentor),
+                    "mentor": mentor.to_dict(),
                     "mentees": mentees
                 }),
                 200
             )
             return response
     
-    @jwt_required()
+    #@jwt_required()
     def patch(self, mentor_id):
         data = mentor_parser.parse_args()
         mentor = Mentor.query.get(mentor_id)
@@ -76,7 +83,7 @@ class MentorResource(Resource):
         else:
             return {'message': 'Mentor not found'}, 404
     
-    @jwt_required()
+#@jwt_required()
     def delete(self, mentor_id):
         mentor = Mentor.query.get(mentor_id)
         if mentor:
