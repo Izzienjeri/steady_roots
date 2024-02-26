@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import Api, Resource, reqparse
-from models import db, Course
+from app.models import db, Course
 from app.auth import jwt_required, get_jwt_identity
 
 

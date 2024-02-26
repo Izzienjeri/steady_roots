@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function Post() {
 	const [posts, setPosts] = useState([])
@@ -6,12 +8,15 @@ function Post() {
 	const [newPost, setNewPost] = useState({
 		title: "",
 		description: "",
+		date_posted: new Date().toISOString(),
+		approved: false,
+		// Include the date_posted with the current date
 		// Add other fields as needed
 	})
 
 	useEffect(() => {
 		const token = localStorage.getItem("accessToken")
-		fetch("http://127.0.0.1:5000/posts", {
+		fetch("http://127.0.0.1:5555/posts", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
@@ -26,7 +31,9 @@ function Post() {
 	}, [])
 
 	const handleAddPost = () => {
-		fetch("http://127.0.0.1:5000/posts", {
+		let resp // Declare resp outside of the fetch promise
+
+		fetch("http://127.0.0.1:5555/posts", {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -34,16 +41,30 @@ function Post() {
 			},
 			body: JSON.stringify(newPost),
 		})
-			.then((resp) => resp.json())
+			.then((response) => {
+				resp = response // Assign the response to resp
+				if (!resp.ok) {
+					throw new Error(`HTTP error! Status: ${resp.status}`)
+				}
+				return resp.json()
+			})
 			.then((data) => {
 				setPosts([...posts, data])
 				setNewPost({
 					title: "",
 					description: "",
+					date_posted: new Date().toISOString(),
 					// Reset other fields as needed
 				})
 			})
-			.catch((err) => console.log(err))
+			.catch((err) => {
+				console.error("Error adding post:", err.message)
+				// Optionally, log more details about the response
+				resp &&
+					resp.text().then((errorMessage) => {
+						console.error("Server response:", errorMessage)
+					})
+			})
 	}
 
 	const handleInputChange = (e) => {
@@ -57,10 +78,7 @@ function Post() {
 	return (
 		<div>
 			<div>
-				<h1>
-					Manage Posts
-					<button onClick={handleAddPost}>Add new post</button>
-				</h1>
+				<h1>Manage Posts</h1>
 			</div>
 
 			<form>
@@ -78,8 +96,10 @@ function Post() {
 					value={newPost.description}
 					onChange={handleInputChange}
 				/>
-
 			</form>
+			<ToastContainer />
+
+			<button onClick={handleAddPost}>Add new post</button>
 		</div>
 	)
 }

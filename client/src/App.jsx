@@ -1,10 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-<<<<<<< HEAD
-import Signup from "./components/signup";
-import Login from "./components/login";
-import Home from "./components/home";
-=======
 import SignIn from "./Signin";
 import SignUp from "./Signup";
 import ProductCategories from "./modules/views/ProductCategories";
@@ -21,18 +16,11 @@ import withRoot from "./modules/withRoot";
 import ManageUsers from "./ManageUsers";
 import SendEmail from "./SendEmail";
 import Experience from "./Experience";
->>>>>>> 1588d8dc6e7698bbb0a5b633f556ee0531950da1
-
+import Post from "./Post";
+import Manageposts from "./Manageposts"
 function App() {
   return (
     <Router>
-<<<<<<< HEAD
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-=======
       <React.Fragment>
         <AppAppBar />
         <Routes>
@@ -44,6 +32,9 @@ function App() {
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
+          <Route path="/createpost" element={<Post />} />
+					<Route path="/managepost" element={<Manageposts />} />
+
         </Routes>
         <ProductValues />
         <ProductCategories />
@@ -52,13 +43,8 @@ function App() {
         <ProductSmokingHero />
         <AppFooter />
       </React.Fragment>
->>>>>>> 1588d8dc6e7698bbb0a5b633f556ee0531950da1
     </Router>
   );
 }
 
 export default App;
-<<<<<<< HEAD
-
-=======
->>>>>>> 1588d8dc6e7698bbb0a5b633f556ee0531950da1

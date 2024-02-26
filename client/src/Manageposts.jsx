@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 
+
 function ManagePosts() {
 	const [allPosts, setAllPosts] = useState([])
 	const [pendingPosts, setPendingPosts] = useState([])
@@ -8,7 +9,7 @@ function ManagePosts() {
 
 	useEffect(() => {
 		const token = localStorage.getItem("accessToken")
-		fetch("http://127.0.0.1:5000/posts", {
+		fetch("http://127.0.0.1:5555/posts", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
@@ -31,7 +32,7 @@ function ManagePosts() {
 	}
 
 	const handleApprove = (postId) => {
-		fetch(`http://127.0.0.1:5000/posts/${postId}`, {
+		fetch(`http://127.0.0.1:5555/posts/${postId}`, {
 			method: "PUT",
 			headers: {
 				Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -47,7 +48,7 @@ function ManagePosts() {
 	}
 
 	const handleDelete = (postId) => {
-		fetch(`http://127.0.0.1:5000/posts/${postId}`, {
+		fetch(`http://127.0.0.1:5555/posts/${postId}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -63,7 +64,7 @@ function ManagePosts() {
 
 	const fetchPosts = () => {
 		const token = localStorage.getItem("accessToken")
-		fetch("http://127.0.0.1:5000/posts", {
+		fetch("http://127.0.0.1:5555/posts", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
@@ -112,27 +113,28 @@ function ManagePosts() {
 				</thead>
 				<tbody>
 					{pendingPosts.length > 0 || approvedPosts.length > 0 ? (
-						pendingPosts.length > 0 &&
-						pendingPosts.map((post) => (
-							<tr key={post.id}>
-								<td>{post.title}</td>
-								<td>{post.description}</td>
-								<td>
-									{post.approved ? (
-										<span>Approved</span>
-									) : (
-										<>
-											<button onClick={() => handleApprove(post.id)}>
-												Approve
-											</button>
-											<button onClick={() => handleDelete(post.id)}>
-												Delete
-											</button>
-										</>
-									)}
-								</td>
-							</tr>
-						))
+						(pendingPosts.length > 0 ? pendingPosts : approvedPosts).map(
+							(post) => (
+								<tr key={post.id}>
+									<td>{post.title}</td>
+									<td>{post.description}</td>
+									<td>
+										{post.approved ? (
+											<span>Approved</span>
+										) : (
+											<>
+												<button onClick={() => handleApprove(post.id)}>
+													Approve
+												</button>
+												<button onClick={() => handleDelete(post.id)}>
+													Delete
+												</button>
+											</>
+										)}
+									</td>
+								</tr>
+							)
+						)
 					) : (
 						<tr>
 							<td colSpan="3">No posts found.</td>
