@@ -37,7 +37,6 @@ const categories = [
       {
         id: "Events",
         icon: <SettingsInputComponentIcon />,
-        path: "/createevents",
       },
     ],
   },

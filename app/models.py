@@ -84,9 +84,8 @@ class Membership(db.Model, SerializerMixin):
     membership = db.Column(db.Boolean, default=False)
     expires = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.String, db.ForeignKey("users.user_id", name="membership_user_fk"), nullable=False)
-    mpesa_number = db.Column(db.String)  
 
-    serialize_only = ('membership_id', 'amount', 'date_paid', 'membership', 'expires', 'mpesa_number')
+    serialize_only = ('membership_id', 'amount', 'date_paid', 'membership', 'expires')
 
     def __repr__(self):
         return f"Membership(membership_id={self.membership_id}, amount={self.amount}, membership={self.membership})"
@@ -161,7 +160,6 @@ class Post(db.Model, SerializerMixin):
     post_id = db.Column(db.String, primary_key=True, default=generate_uuid)
     title = db.Column(db.String)
     description = db.Column(db.String)
-    image = db.Column(db.String)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     approved = db.Column(db.Boolean)
     approved_by = db.Column(db.String)

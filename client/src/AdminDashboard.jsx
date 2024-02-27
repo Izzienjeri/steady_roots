@@ -6,7 +6,6 @@ import Navigator from "./Navigator";
 import ManageUsers from "./ManageUsers";
 import SendEmail from "./SendEmail";
 import ApprovePosts from "./ApprovePosts";
-import CreateEvents from "./CreateEvent";
 
 function AdminDashboard() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -21,9 +20,8 @@ function AdminDashboard() {
       <Navigator />
       <Paperbase>
         <Routes>
-          <Route path="/createevents" element={<CreateEvents />} />
           <Route path="/manageusers" element={<ManageUsers />} />
-          <Route path="/sendemail" element={<SendEmail />} />
+          <Route path="sendemail" element={<SendEmail />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
         </Routes>
       </Paperbase>
