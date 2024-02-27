@@ -16,8 +16,12 @@ import withRoot from "./modules/withRoot";
 import ManageUsers from "./ManageUsers";
 import SendEmail from "./SendEmail";
 import AdminDashboard from "./AdminDashboard";
-import Experience from "./Experience";
 import Dashboard from "./Dashboard";
+import CreateEvent from "./CreateEvent";
+import Experience from "./Experience";
+import Events from "./Event";
+import Membership from "./Membership";
+import Course from "./Course";
 
 const App = () => {
   return (
@@ -28,7 +32,11 @@ const App = () => {
           <Route path="/" element={<ProductHero />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/courses" element={<Course />} />
+          <Route path="/membership" element={<Membership />} />
           <Route path="/experiences" element={<Experience />} />
+          <Route path="/createevents" element={<CreateEvent />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/sendemail" element={<SendEmail />} />
