@@ -43,9 +43,11 @@ function Post() {
 		})
 			.then((response) => {
 				resp = response // Assign the response to resp
+
 				if (!resp.ok) {
 					throw new Error(`HTTP error! Status: ${resp.status}`)
 				}
+
 				return resp.json()
 			})
 			.then((data) => {
@@ -56,14 +58,35 @@ function Post() {
 					date_posted: new Date().toISOString(),
 					// Reset other fields as needed
 				})
+
+				// Show a success toast
+				toast.success("Post added successfully", {
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+				})
 			})
 			.catch((err) => {
 				console.error("Error adding post:", err.message)
+
 				// Optionally, log more details about the response
 				resp &&
 					resp.text().then((errorMessage) => {
 						console.error("Server response:", errorMessage)
 					})
+
+				// Show an error toast
+				toast.error("Error adding post. Please try again.", {
+					position: "top-right",
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+				})
 			})
 	}
 
@@ -98,7 +121,6 @@ function Post() {
 				/>
 			</form>
 			<ToastContainer />
-
 			<button onClick={handleAddPost}>Add new post</button>
 		</div>
 	)

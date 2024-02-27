@@ -15,9 +15,11 @@ import CreatePosts from "./CreatePosts";
 import withRoot from "./modules/withRoot";
 import ManageUsers from "./ManageUsers";
 import SendEmail from "./SendEmail";
+import AdminDashboard from "./AdminDashboard";
 import Experience from "./Experience";
-import Post from "./Post";
+import Dashboard from "./Dashboard";
 import Manageposts from "./Manageposts"
+import Post from "./Post"
 function App() {
   return (
     <Router>
@@ -28,6 +30,8 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/experiences" element={<Experience />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/sendemail" element={<SendEmail />} />
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
@@ -47,4 +51,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRoot(App);
