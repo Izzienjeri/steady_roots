@@ -84,8 +84,9 @@ class Membership(db.Model, SerializerMixin):
     membership = db.Column(db.Boolean, default=False)
     expires = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.String, db.ForeignKey("users.user_id", name="membership_user_fk"), nullable=False)
+    mpesa_number = db.Column(db.String)  
 
-    serialize_only = ('membership_id', 'amount', 'date_paid', 'membership', 'expires')
+    serialize_only = ('membership_id', 'amount', 'date_paid', 'membership', 'expires', 'mpesa_number')
 
     def __repr__(self):
         return f"Membership(membership_id={self.membership_id}, amount={self.amount}, membership={self.membership})"
