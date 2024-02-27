@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const Membership = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -10,9 +12,10 @@ const Membership = () => {
       email: "",
       amount: "",
       mpesa_number: "",
-      user_id: "", // Assuming you have some way to get the user ID
+      user_id: "",
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
+      setIsSubmitting(true); // Disable button
       try {
         const response = await fetch("http://127.0.0.1:5555/apply_membership", {
           method: "POST",
@@ -30,16 +33,22 @@ const Membership = () => {
           throw new Error("Failed to apply for membership");
         }
 
+        resetForm();
         const data = await response.json();
-        toast.success(`Dear ${values.firstName}, ${data.message}`);
+        toast.success(
+          `Dear ${values.firstName}. Please expect an Mpesa prompt soon.`
+        );
       } catch (error) {
         toast.error(error.message || "Failed to apply for membership");
+      } finally {
+        setIsSubmitting(false);
       }
     },
   });
 
   return (
     <div>
+      <ToastContainer />
       <h2>Apply for Membership</h2>
       <form onSubmit={formik.handleSubmit}>
         <div>
@@ -96,13 +105,15 @@ const Membership = () => {
             type="text"
             id="mpesa_number"
             name="mpesa_number"
-            placeholder="Enter your MPESA number"
+            placeholder=" 254123456789"
             value={formik.values.mpesa_number}
             onChange={formik.handleChange}
             required
           />
         </div>
-        <button type="submit">Apply</button>
+        <button type="submit" disabled={isSubmitting}>
+          Apply
+        </button>
       </form>
     </div>
   );

@@ -12,6 +12,7 @@ import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import HomeIcon from "@mui/icons-material/Home";
 import PermMediaOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActual";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
+import PeopleIcon from "@mui/icons-material/People";
 
 const categories = [
   {
@@ -31,6 +32,11 @@ const categories = [
         id: "Events",
         icon: <SettingsInputComponentIcon />,
         path: "/events",
+      },
+      {
+        id: "Membership",
+        icon: <PeopleIcon />,
+        path: "/membership",
       },
     ],
   },
