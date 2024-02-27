@@ -34,7 +34,7 @@ def create_app():
     app.config['SECRET_KEY'] = flask_secret_key
     app.config['JWT_SECRET_KEY'] = jwt_secret_key
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=7)
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 
 
     
