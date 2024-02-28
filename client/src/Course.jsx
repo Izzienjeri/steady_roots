@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-const Courses = () => {
+const Course = () => {
   const [courses, setCourses] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -10,7 +8,7 @@ const Courses = () => {
     start: "",
     end: "",
     qualification: "",
-    user_id: "",
+    user_id: "", // Assuming user_id is required for creating a course
   });
 
   useEffect(() => {
@@ -20,13 +18,12 @@ const Courses = () => {
   const fetchCourses = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch("http://127.0.0.1:5555/courses", {
+      const response = await fetch("http://localhost:5555/courses", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-
       if (response.ok) {
         const data = await response.json();
         setCourses(data);
@@ -38,7 +35,7 @@ const Courses = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -46,7 +43,7 @@ const Courses = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch("http://127.0.0.1:5555/courses", {
+      const response = await fetch("http://localhost:5555/courses", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -55,7 +52,7 @@ const Courses = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        toast.success("Course added successfully");
+        fetchCourses();
         setFormData({
           name: "",
           level: "",
@@ -64,13 +61,11 @@ const Courses = () => {
           qualification: "",
           user_id: "",
         });
-        fetchCourses();
       } else {
         throw new Error("Failed to add course");
       }
     } catch (error) {
       console.error("Error adding course:", error);
-      toast.error("Failed to add course");
     }
   };
 
@@ -78,7 +73,7 @@ const Courses = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await fetch(
-        `http://127.0.0.1:5555/courses/${courseId}`,
+        `http://localhost:5555/courses/${courseId}`,
         {
           method: "DELETE",
           headers: {
@@ -88,14 +83,12 @@ const Courses = () => {
         }
       );
       if (response.ok) {
-        setCourses(courses.filter((course) => course.id !== courseId));
+        fetchCourses();
       } else {
-        console.error("Failed to delete course");
-        toast.error("Failed to delete course");
+        throw new Error("Failed to delete course");
       }
     } catch (error) {
       console.error("Error deleting course:", error);
-      toast.error("Error deleting course");
     }
   };
 
@@ -107,7 +100,7 @@ const Courses = () => {
           type="text"
           name="name"
           value={formData.name}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="Course Name"
           required
         />
@@ -115,7 +108,7 @@ const Courses = () => {
           type="text"
           name="level"
           value={formData.level}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="Level"
           required
         />
@@ -123,32 +116,24 @@ const Courses = () => {
           type="date"
           name="start"
           value={formData.start}
-          onChange={handleChange}
-          placeholder="Start Date"
+          onChange={handleInputChange}
+          placeholder="Start"
           required
         />
         <input
           type="date"
           name="end"
           value={formData.end}
-          onChange={handleChange}
-          placeholder="End Date"
+          onChange={handleInputChange}
+          placeholder="End"
           required
         />
         <input
           type="text"
           name="qualification"
           value={formData.qualification}
-          onChange={handleChange}
+          onChange={handleInputChange}
           placeholder="Qualification"
-          required
-        />
-        <input
-          type="text"
-          name="user_id"
-          value={formData.user_id}
-          onChange={handleChange}
-          placeholder="User ID"
           required
         />
         <button type="submit">Add Course</button>
@@ -158,8 +143,8 @@ const Courses = () => {
           <li key={course.id}>
             <div>{course.name}</div>
             <div>{course.level}</div>
-            <div>{course.start}</div>
-            <div>{course.end}</div>
+            <div>{new Date(course.start).toLocaleDateString()}</div>
+            <div>{new Date(course.end).toLocaleDateString()}</div>
             <div>{course.qualification}</div>
             <button onClick={() => handleDelete(course.id)}>Delete</button>
           </li>
@@ -169,4 +154,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default Course;
