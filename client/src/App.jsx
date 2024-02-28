@@ -22,6 +22,7 @@ import Experience from "./Experience";
 import Events from "./Event";
 import Membership from "./Membership";
 import Course from "./Course";
+import Skill from "./Skill";
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
+          <Route path="/courses" element={<Course />} /> 
+          <Route path="/skills" element={<Skill />} />
         </Routes>
         <ProductValues />
         <ProductCategories />
