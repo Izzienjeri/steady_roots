@@ -11,17 +11,17 @@ import ProductHowItWorks from "./modules/views/ProductHowItWorks";
 import ProductCTA from "./modules/views/ProductCTA";
 import AppAppBar from "./modules/views/AppAppBar";
 import ApprovePosts from "./ApprovePosts";
-import CreatePosts from "./CreatePosts";
 import withRoot from "./modules/withRoot";
 import ManageUsers from "./ManageUsers";
 import SendEmail from "./SendEmail";
 import AdminDashboard from "./AdminDashboard";
-import Dashboard from "./Dashboard";
+import Dashboard from "./Dashboard/Dashboard";
 import CreateEvent from "./CreateEvent";
-import Experience from "./Experience";
-import Events from "./Event";
-import Membership from "./Membership";
+import Events from "./Dashboard/Event";
+import Membership from "./Dashboard/Membership";
 import Course from "./Course";
+import CreatePosts from "./Dashboard/CreatePosts";
+import Experience from "./Dashboard/Experience";
 
 function App() {
   return (

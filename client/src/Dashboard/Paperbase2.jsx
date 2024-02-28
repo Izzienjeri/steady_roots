@@ -14,7 +14,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Steady Roots{" "}
       </Link>{" "}
       {new Date().getFullYear()}.
     </Typography>
@@ -191,22 +191,7 @@ export default function Paperbase2() {
             />
           )}
 
-          <Navigator2
-            PaperProps={{ style: { width: drawerWidth } }}
-            sx={{ display: { sm: "block", xs: "none" } }}
-          />
-        </Box>
-        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <Header2 onDrawerToggle={handleDrawerToggle} />
-          <Box
-            component="main"
-            sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
-          >
-            <Content2 />
-          </Box>
-          <Box component="footer" sx={{ p: 2, bgcolor: "#eaeff1" }}>
-            <Copyright />
-          </Box>
+          <Navigator2 PaperProps={{ style: { width: drawerWidth } }} />
         </Box>
       </Box>
     </ThemeProvider>
