@@ -1,0 +1,39 @@
+.course-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .course-form {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .course-card {
+    margin: 10px;
+    padding: 20px;
+    background-color: rgb(238, 236, 246);
+    border-radius: 8px;
+  }
+  
+  .course-card-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .course-card-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .course-deleteButton {
+    margin-left: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .course-card {
+      width: 100%;
+    }
+  }
+  
