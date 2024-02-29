@@ -26,6 +26,7 @@ import CreateProfile from "./AdminDashboard/CreateProfile";
 import EditProfile from "./AdminDashboard/EditProfile";
 import Profile from "./AdminDashboard/Profile";
 import ProfilePage from "./AdminDashboard/ProfilePage";
+import Logout from "./Logout";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/events" element={<Events />} />
           <Route path="/courses" element={<Course />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/profilepage" element={<ProfilePage />} />
           <Route path="/createprofile" element={<CreateProfile />} />
           <Route path="/editprofile" element={<EditProfile />} />

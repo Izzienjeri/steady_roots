@@ -1,4 +1,3 @@
-// Navigator.jsx
 import React from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -9,6 +8,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import DnsRoundedIcon from "@mui/icons-material/DnsRounded";
 import PermMediaOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActual";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
+import Logout from "../Logout";
 
 const categories = [
   {
@@ -32,7 +32,18 @@ const Navigator = ({ onItemClick, selectedItem }) => {
   };
 
   return (
-    <div style={{ width: 240, backgroundColor: "#f0f0f0", height: "100vh" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: 240,
+        backgroundColor: "#f0f0f0",
+        height: "100vh",
+        position: "relative", // Position relative for Logout button positioning
+      }}
+    >
       <List>
         {categories.map((category) => (
           <div key={category.id}>
@@ -49,6 +60,10 @@ const Navigator = ({ onItemClick, selectedItem }) => {
           </div>
         ))}
       </List>
+      {/* Absolute positioning for the Logout button */}
+      <div style={{ position: "absolute", bottom: 10 }}>
+        <Logout />
+      </div>
     </div>
   );
 };

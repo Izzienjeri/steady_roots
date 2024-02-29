@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-const LogoutButton = () => {
+const Logout = () => {
   const handleLogout = async () => {
     try {
       const response = await fetch("/logout", {
@@ -29,4 +29,4 @@ const LogoutButton = () => {
   );
 };
 
-export default LogoutButton;
+export default Logout;
