@@ -3,6 +3,9 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import AppBar from "../components/AppBar";
 import Toolbar from "../components/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu"; // Import the Menu icon
+import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
 
 const rightLink = {
   fontSize: 16,
@@ -15,7 +18,16 @@ function AppAppBar() {
     <div>
       <AppBar position="fixed">
         <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Box sx={{ flex: 1 }} />
+          {/* IconButton to open dashboard */}
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            component={RouterLink}
+            to="/dashboard" // Link to dashboard
+          >
+            <MenuIcon />
+          </IconButton>
           <Link
             variant="h6"
             underline="none"

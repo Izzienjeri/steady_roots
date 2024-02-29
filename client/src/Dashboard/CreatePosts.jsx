@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import styled from "@mui/material/styles/styled";
+
+import FormButton from "../modules/form/FormButton";
+
+import "./CreatePosts.css";
 
 const CreatePosts = () => {
   const [title, setTitle] = useState("");
@@ -72,41 +84,67 @@ const CreatePosts = () => {
   };
 
   return (
-    <div>
-      <h2>Create New Post</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
+    <div className="createPosts-container">
+      <Typography className="createPosts-title" variant="h4" gutterBottom>
+        Create New Post
+      </Typography>
+      <div className="createPosts-formContainer">
+        <form onSubmit={handleSubmit}>
+          <TextField
             id="title"
+            label="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            variant="outlined"
+            fullWidth
             required
+            className="createPosts-input"
           />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <textarea
+          <TextField
             id="description"
+            label="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            variant="outlined"
+            multiline
+            rows={4}
+            fullWidth
             required
+            className="createPosts-input"
           />
-        </div>
-        <button type="submit">Create Post</button>
-      </form>
+          <FormButton type="submit" variant="contained" color="primary">
+            Create Post
+          </FormButton>
+        </form>
+      </div>
 
-      <h2>Approved Posts</h2>
-      <ul>
+      <Typography variant="h4" gutterBottom></Typography>
+      <div className="createPosts-cardContainer">
         {approvedPosts.map((post) => (
-          <li key={post.id}>
-            <div>Title: {post.title}</div>
-            <div>Description: {post.description}</div>
-            <div>Date Posted: {post.date_posted}</div>
-          </li>
+          <Card
+            key={post.id}
+            className="createPosts-card"
+            style={{
+              width: "400px",
+              margin: "10px",
+              backgroundColor: "rgb(238, 236, 246)",
+              transition: "transform 0.3s",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.transform = "scale(1.05)")
+            }
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          >
+            <CardContent>
+              <Typography variant="h6">{post.title}</Typography>
+              <Typography variant="body1">{post.description}</Typography>
+              <Typography variant="caption">
+                Date Posted: {post.date_posted}
+              </Typography>
+            </CardContent>
+          </Card>
         ))}
-      </ul>
+      </div>
 
       <ToastContainer />
     </div>
