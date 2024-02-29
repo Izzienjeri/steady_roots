@@ -4,10 +4,18 @@ import ManageUsers from "./ManageUsers";
 import SendEmail from "./SendEmail";
 import CreateEvents from "./CreateEvent";
 import ApprovePosts from "./ApprovePosts";
+import CreateProfile from "./CreateProfile";
+import ProfilePage from "./ProfilePage";
 
 const DynamicContent = ({ selectedItem }) => {
   const getContent = () => {
     switch (selectedItem) {
+      case "Profile":
+        return (
+          <Typography>
+            <ProfilePage />
+          </Typography>
+        );
       case "Manage Users":
         return (
           <Typography>

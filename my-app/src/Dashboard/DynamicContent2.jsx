@@ -5,10 +5,17 @@ import Experience from "./Experience";
 import Events from "./Event";
 import Membership from "./Membership";
 import Course from "./Course";
+import CreateEvents from "../AdminDashboard/CreateEvent";
 
 const DynamicContent2 = ({ selectedItem }) => {
   const getContent = () => {
     switch (selectedItem) {
+      case "Profile":
+        return (
+          <Typography>
+            <CreateEvents />
+          </Typography>
+        );
       case "Posts":
         return (
           <Typography>

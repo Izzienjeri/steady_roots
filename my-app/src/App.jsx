@@ -22,7 +22,10 @@ import Membership from "./Dashboard/Membership";
 import Course from "./Dashboard/Course";
 import CreatePosts from "./Dashboard/CreatePosts";
 import Experience from "./Dashboard/Experience";
+import CreateProfile from "./AdminDashboard/CreateProfile";
+import EditProfile from "./AdminDashboard/EditProfile";
 import Profile from "./AdminDashboard/Profile";
+import ProfilePage from "./AdminDashboard/ProfilePage";
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/events" element={<Events />} />
           <Route path="/courses" element={<Course />} />
+          <Route path="/profilepage" element={<ProfilePage />} />
+          <Route path="/createprofile" element={<CreateProfile />} />
+          <Route path="/editprofile" element={<EditProfile />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/experiences" element={<Experience />} />

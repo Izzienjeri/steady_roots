@@ -16,6 +16,10 @@ const categories = [
     id: "Build",
     children: [
       {
+        id: "Profile",
+        icon: <PeopleIcon />,
+      },
+      {
         id: "Posts",
         icon: <PermMediaOutlinedIcon />,
       },

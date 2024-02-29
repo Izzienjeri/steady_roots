@@ -1,107 +1,43 @@
 import React, { useState, useEffect } from "react";
 
 const Profile = () => {
-  const [profiles, setProfiles] = useState([]);
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    photo_url: "",
-    password: "",
-    user_id: "", // Assuming you have a way to get the current user's ID
-  });
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    fetchProfiles();
+    fetchProfile();
   }, []);
 
-  const fetchProfiles = async () => {
+  const fetchProfile = async () => {
     try {
-      const response = await fetch("/profiles", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch profiles");
-      }
-      const data = await response.json();
-      setProfiles(data);
-    } catch (error) {
-      console.error("Error fetching profiles:", error);
-    }
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch("/profiles", {
-        method: "POST",
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch("http://127.0.0.1:5555/profile", {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
       });
-      if (!response.ok) {
-        throw new Error("Failed to create profile");
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data);
+      } else {
+        console.error("Failed to fetch profile");
       }
-      console.log("Profile created successfully");
-      fetchProfiles();
     } catch (error) {
-      console.error("Error creating profile:", error);
+      console.error("Error fetching profile:", error);
     }
   };
+
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <h1>Profiles</h1>
-      <ul>
-        {profiles.map((profile) => (
-          <li key={profile.id}>
-            {profile.first_name} {profile.last_name}
-          </li>
-        ))}
-      </ul>
-      <h2>Create Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="first_name"
-          placeholder="First Name"
-          value={formData.first_name}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="last_name"
-          placeholder="Last Name"
-          value={formData.last_name}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="photo_url"
-          placeholder="Photo URL"
-          value={formData.photo_url}
-          onChange={handleInputChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleInputChange}
-        />
-        <button type="submit">Create Profile</button>
-      </form>
+      <h2>Profile</h2>
+      <p>First Name: {profile.first_name}</p>
+      <p>Last Name: {profile.last_name}</p>
+      <img src={profile.photo_url} alt="Profile" />
     </div>
   );
 };

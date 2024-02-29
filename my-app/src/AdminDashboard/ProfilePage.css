@@ -1,0 +1,25 @@
+.profilePageRoot {
+    padding: 20px;
+  }
+  
+  .profileCard {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .profileCard h4 {
+    margin-bottom: 20px;
+  }
+  
+  .profileCardAvatar {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+  
+  .profileCardAvatarImage {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+  
