@@ -1,19 +1,10 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+import React from "react";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import CreatePosts from "./CreatePosts";
 import Experience from "./Experience";
 import Events from "./Event";
 import Membership from "./Membership";
+import Course from "./Course";
 
 const DynamicContent2 = ({ selectedItem }) => {
   const getContent = () => {
@@ -21,7 +12,7 @@ const DynamicContent2 = ({ selectedItem }) => {
       case "Posts":
         return (
           <Typography>
-            <CreatePosts />;
+            <CreatePosts />
           </Typography>
         );
       case "Experience":
@@ -42,8 +33,14 @@ const DynamicContent2 = ({ selectedItem }) => {
             <Membership />
           </Typography>
         );
+      case "Courses":
+        return (
+          <Typography>
+            <Course />
+          </Typography>
+        );
       default:
-        return (<Typography></Typography>)(
+        return (
           <Typography variant="h6" component="div">
             Welcome to Dashboard!
           </Typography>

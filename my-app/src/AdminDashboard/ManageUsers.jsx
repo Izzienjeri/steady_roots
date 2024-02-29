@@ -57,7 +57,9 @@ const ManageUsers = () => {
 
   return (
     <div className="manage-users-container">
-      <h1>Manage Users</h1>
+      <Typography variant="h2" gutterBottom style={{ textAlign: "center" }}>
+        Manage Users
+      </Typography>
       <ToastContainer />
       <div className="cards-container">
         {users.map((user) => (

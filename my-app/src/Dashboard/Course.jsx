@@ -105,7 +105,9 @@ const Course = () => {
 
   return (
     <div className="course-container">
-      <h2>Courses</h2>
+      <Typography variant="h2" gutterBottom style={{ textAlign: "center" }}>
+        Courses
+        </Typography>
       <form className="course-form" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>

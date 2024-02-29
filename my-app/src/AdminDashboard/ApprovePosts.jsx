@@ -99,7 +99,9 @@ const ApprovePosts = () => {
 
   return (
     <div className="approve-posts-container">
-      <h1>Admin Dashboard</h1>
+      <Typography variant="h2" gutterBottom style={{ textAlign: "center" }}>
+        Posts Approval
+      </Typography>
       <div className="filter-buttons">
         <Button
           variant={showApproved ? "outlined" : "contained"}

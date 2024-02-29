@@ -107,7 +107,9 @@ const CreateEvents = () => {
 
   return (
     <div className="create-events-container">
-      <h2>Create New Event</h2>
+      <Typography variant="h2" gutterBottom style={{ textAlign: "center" }}>
+        Create New Event
+      </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -166,7 +168,14 @@ const CreateEvents = () => {
       <h2>Events</h2>
       <div className="events-container">
         {events.map((event) => (
-          <Card key={event.id} className="event-card">
+          <Card
+            key={event.id}
+            className="event-card"
+            style={{
+              transition: "transform 0.2s",
+              ":hover": { transform: "scale(1.05)" },
+            }}
+          >
             <CardContent>
               <Typography variant="h5" component="div">
                 {event.name}

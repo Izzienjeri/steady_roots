@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Paperbase2 from "./Paperbase2";
-import Header2 from "./Header2";
+// import { Routes, Route, Navigate } from "react-router-dom";
+// import Paperbase2 from "./Paperbase2";
+// import Header2 from "./Header2";
 import Navigator2 from "./Navigator2";
 import DynamicContent2 from "./DynamicContent2";
 

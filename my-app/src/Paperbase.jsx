@@ -5,9 +5,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import Navigator2 from "./Navigator2";
-import DynamicContent2 from "./DynamicContent2";
-import Header2 from "./Header2";
+import Navigator from "./Navigator";
+import Content from "./Content";
+import Header from "./Header";
 
 function Copyright() {
   return (
@@ -166,7 +166,7 @@ theme = {
 
 const drawerWidth = 256;
 
-export default function Paperbase2() {
+export default function Paperbase() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -183,7 +183,7 @@ export default function Paperbase2() {
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
           {isSmUp ? null : (
-            <Navigator2
+            <Navigator
               PaperProps={{ style: { width: drawerWidth } }}
               variant="temporary"
               open={mobileOpen}
@@ -191,19 +191,19 @@ export default function Paperbase2() {
             />
           )}
 
-          <Navigator2
+          <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
             sx={{ display: { sm: "block", xs: "none" } }}
           />
         </Box>
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <Header2 onDrawerToggle={handleDrawerToggle} />
-          <Box
+          <Header onDrawerToggle={handleDrawerToggle} />
+          {/* <Box
             component="main"
             sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
           >
-            <DynamicContent2 />
-          </Box>
+            <Content />
+          </Box> */}
           <Box component="footer" sx={{ p: 2, bgcolor: "#eaeff1" }}>
             <Copyright />
           </Box>
