@@ -19,8 +19,7 @@ import AdminDashboard from "./AdminDashboard";
 import Dashboard from "./Dashboard";
 import CreateEvent from "./CreateEvent";
 import Experience from "./Experience";
-import Dashboard from "./Dashboard";
-
+import Events from "./Event";
 function App() {
   return (
     <Router>

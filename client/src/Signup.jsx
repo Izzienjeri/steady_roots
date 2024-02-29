@@ -42,7 +42,7 @@ function SignUp() {
     const { role, ...formData } = values;
     const formDataWithRole = role ? { ...formData, role } : formData;
     try {
-      const response = await fetch("http://127.0.0.1:5000/signup", {
+      const response = await fetch("http://127.0.0.1:5555/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
