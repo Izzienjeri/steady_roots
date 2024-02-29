@@ -10,22 +10,19 @@ import ProductValues from "./modules/views/ProductValues";
 import ProductHowItWorks from "./modules/views/ProductHowItWorks";
 import ProductCTA from "./modules/views/ProductCTA";
 import AppAppBar from "./modules/views/AppAppBar";
-import ApprovePosts from "./ApprovePosts";
+import ApprovePosts from "./AdminDashboard/ApprovePosts";
 import withRoot from "./modules/withRoot";
-import ManageUsers from "./ManageUsers";
-import SendEmail from "./SendEmail";
-import AdminDashboard from "./AdminDashboard";
+import ManageUsers from "./AdminDashboard/ManageUsers";
+import SendEmail from "./AdminDashboard/SendEmail";
+import AdminDashboard from "./AdminDashboard/AdminDashboard";
 import Dashboard from "./Dashboard/Dashboard";
-import CreateEvent from "./CreateEvent";
+import CreateEvent from "./AdminDashboard/CreateEvent";
 import Events from "./Dashboard/Event";
 import Membership from "./Dashboard/Membership";
-import Course from "./Course";
-<<<<<<< HEAD
-import Skill from "./Skill";
-=======
+import Course from "./Dashboard/Course";
 import CreatePosts from "./Dashboard/CreatePosts";
 import Experience from "./Dashboard/Experience";
->>>>>>> 778d17be8c1f346dbd1761b1aa6067e2583ce69f
+import Profile from "./AdminDashboard/Profile";
 
 function App() {
   return (
@@ -38,6 +35,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/events" element={<Events />} />
           <Route path="/courses" element={<Course />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/experiences" element={<Experience />} />
           <Route path="/createevents" element={<CreateEvent />} />
@@ -47,8 +45,6 @@ function App() {
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
-          <Route path="/courses" element={<Course />} /> 
-          <Route path="/skills" element={<Skill />} />
         </Routes>
         <ProductValues />
         <ProductCategories />

@@ -51,21 +51,17 @@ export default function Navigator2(props) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem
-          sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}
-        >
-          Steady Roots 🖤
-        </ListItem>
-        <ListItem sx={{ ...item, ...itemCategory }}>
+        <ListItem sx={item}>Steady Roots 🖤</ListItem>
+        <ListItem sx={item}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText> DashBoard</ListItemText>
         </ListItem>
         {categories.map(({ id, children }) => (
-          <Box key={id} sx={{ bgcolor: "#101F33" }}>
-            <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
+          <Box key={id}>
+            <ListItem sx={itemCategory}>
+              <ListItemText>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, path }) => (
               <ListItem disablePadding key={childId} component={Link} to={path}>
@@ -76,7 +72,7 @@ export default function Navigator2(props) {
                 </ListItemButton>
               </ListItem>
             ))}
-            <Divider sx={{ mt: 2 }} />
+            <Divider />
           </Box>
         ))}
       </List>
