@@ -15,15 +15,13 @@ function AppAppBar() {
   return (
     <div>
       <AppBar position="fixed">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          {/* IconButton to open dashboard */}
-
+        <Toolbar sx={{ justifyContent: "center" }}>
           <Link
             variant="h6"
             underline="none"
             color="inherit"
             href="/premium-themes/onepirate/"
-            sx={{ fontSize: 24 }}
+            sx={{ fontSize: 32, fontWeight: "bold" }}
           >
             {"Steady Roots 🖤"}
           </Link>
