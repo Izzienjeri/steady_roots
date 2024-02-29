@@ -1,0 +1,35 @@
+.approve-posts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .filter-buttons {
+    margin-bottom: 20px;
+  }
+  
+  .posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* ApprovePosts.css */
+
+.post-card {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-content {
+    flex-grow: 1;
+  }
+  
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+  
+  
