@@ -15,6 +15,8 @@ const Skill = () => {
   const [skills, setSkills] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
+    mentorId: "",
+    menteeId: "",
   });
 
   useEffect(() => {
@@ -56,7 +58,7 @@ const Skill = () => {
       });
       if (response.ok) {
         fetchSkills();
-        setFormData({ name: "" });
+        setFormData({ name: "", mentorId: "", menteeId: "" });
       } else {
         throw new Error("Failed to add skill");
       }
@@ -104,6 +106,26 @@ const Skill = () => {
               value={formData.name}
               onChange={handleInputChange}
               required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              id="mentorId"
+              name="mentorId"
+              label="Mentor ID"
+              value={formData.mentorId}
+              onChange={handleInputChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              id="menteeId"
+              name="menteeId"
+              label="Mentee ID"
+              value={formData.menteeId}
+              onChange={handleInputChange}
             />
           </Grid>
           <Grid item xs={12}>

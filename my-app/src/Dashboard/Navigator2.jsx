@@ -35,6 +35,11 @@ const categories = [
         id: "Courses",
         icon: <PeopleIcon />,
       },
+      {
+        id: "Skills",
+        icon: <PeopleIcon />,
+      },
+
     ],
   },
 ];

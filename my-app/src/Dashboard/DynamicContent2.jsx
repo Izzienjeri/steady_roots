@@ -5,6 +5,7 @@ import Experience from "./Experience";
 import Events from "./Event";
 import Membership from "./Membership";
 import Course from "./Course";
+import Skill from "./Skill";
 
 const DynamicContent2 = ({ selectedItem }) => {
   const getContent = () => {
@@ -39,6 +40,13 @@ const DynamicContent2 = ({ selectedItem }) => {
             <Course />
           </Typography>
         );
+        case "Skills":
+          return (
+            <Typography>
+              <Skill />
+            </Typography>
+          );
+
       default:
         return (
           <Typography variant="h6" component="div">
