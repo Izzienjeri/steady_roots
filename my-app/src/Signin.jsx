@@ -13,7 +13,7 @@ import FormFeedback from "./modules/form/FormFeedback";
 import withRoot from "./modules/withRoot";
 import { useNavigate } from "react-router-dom";
 
-function SignIn() {
+function SignIn({ onSignIn }) {
   const [sent, setSent] = useState(false);
   const Navigate = useNavigate();
 
@@ -29,6 +29,7 @@ function SignIn() {
 
     return errors;
   };
+
   const handleSubmit = async (values) => {
     setSent(true);
 
@@ -47,6 +48,9 @@ function SignIn() {
 
         localStorage.setItem("accessToken", userData.access_token);
         localStorage.setItem("userRole", userData.role);
+
+        // Call the onSignIn function passed from the App component
+        onSignIn();
 
         // Check user role and redirect accordingly
         if (userData.role === "admin") {
@@ -68,6 +72,7 @@ function SignIn() {
       setSent(false);
     }
   };
+
   return (
     <React.Fragment>
       <AppAppBar />

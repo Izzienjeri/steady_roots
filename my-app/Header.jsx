@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import AppBar from "../components/AppBar";
 import Toolbar from "../components/Toolbar";
-import IconButton from "@mui/material/IconButton";
 
 const rightLink = {
   fontSize: 16,
@@ -11,7 +10,7 @@ const rightLink = {
   ml: 3,
 };
 
-function AppAppBar() {
+function Header() {
   return (
     <div>
       <AppBar position="fixed">
@@ -53,4 +52,4 @@ function AppAppBar() {
   );
 }
 
-export default AppAppBar;
+export default Header;

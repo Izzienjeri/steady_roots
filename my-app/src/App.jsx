@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./Signin";
 import SignUp from "./Signup";
@@ -9,7 +9,6 @@ import ProductHero from "./modules/views/ProductHero";
 import ProductValues from "./modules/views/ProductValues";
 import ProductHowItWorks from "./modules/views/ProductHowItWorks";
 import ProductCTA from "./modules/views/ProductCTA";
-import AppAppBar from "./modules/views/AppAppBar";
 import ApprovePosts from "./AdminDashboard/ApprovePosts";
 import withRoot from "./modules/withRoot";
 import ManageUsers from "./AdminDashboard/ManageUsers";
@@ -31,15 +30,21 @@ import EditProfile2 from "./Dashboard/EditProfile2";
 import Profile2 from "./Dashboard/Profile2";
 import ProfilePage2 from "./Dashboard/ProfilePage2";
 import Logout from "./Logout";
+import AppAppBar from "./modules/views/AppAppBar";
 
 function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
   return (
     <Router>
       <React.Fragment>
-        <AppAppBar />
+        {!isSignedIn && <AppAppBar />}
         <Routes>
           <Route path="/" element={<ProductHero />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route
+            path="/signin"
+            element={<SignIn onSignIn={() => setIsSignedIn(true)} />}
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/events" element={<Events />} />
           <Route path="/courses" element={<Course />} />
