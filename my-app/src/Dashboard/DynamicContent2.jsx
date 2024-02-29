@@ -9,8 +9,13 @@ import CreateEvents from "../AdminDashboard/CreateEvent";
 import ProfilePage2 from "./ProfilePage2";
 
 const DynamicContent2 = ({ selectedItem }) => {
+  const getDefaultSelectedItem = () => {
+    // Define the default selected item here (e.g., "Membership")
+    return "Membership";
+  };
+
   const getContent = () => {
-    switch (selectedItem) {
+    switch (selectedItem || getDefaultSelectedItem()) {
       case "Profile":
         return (
           <Typography>
@@ -48,13 +53,10 @@ const DynamicContent2 = ({ selectedItem }) => {
           </Typography>
         );
       default:
-        return (
-          <Typography variant="h6" component="div">
-            Welcome to Dashboard!
-          </Typography>
-        );
+        return null; // Return null for default case
     }
   };
+
   return <div style={{ flex: 1, padding: "20px" }}>{getContent()}</div>;
 };
 
