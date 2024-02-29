@@ -14,12 +14,15 @@ import FormButton from "../modules/form/FormButton";
 
 import "./CreatePosts.css";
 
+
 const CreatePosts = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   const notifySuccess = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
+
+  const [approvedPosts, setApprovedPosts] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,11 +87,6 @@ const CreatePosts = () => {
             required
             className="createPosts-input"
           />
-<<<<<<< HEAD:client/src/CreatePosts.jsx
-        </div>
-        <button type="submit">Create Post</button>
-      </form>
-=======
           <FormButton type="submit" variant="contained" color="primary">
             Create Post
           </FormButton>
@@ -123,7 +121,6 @@ const CreatePosts = () => {
         ))}
       </div>
 
->>>>>>> 778d17be8c1f346dbd1761b1aa6067e2583ce69f:my-app/src/Dashboard/CreatePosts.jsx
       <ToastContainer />
     </div>
   );

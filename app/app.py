@@ -22,11 +22,9 @@ import secrets
 def create_app():
     app = Flask(__name__)
     jwt = JWTManager(app)
-<<<<<<< HEAD
-    CORS(app, resources={r"/*": {"origins": "http://localhost:5175"}})
-=======
+
     CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
->>>>>>> 778d17be8c1f346dbd1761b1aa6067e2583ce69f
+
     
     flask_secret_key = secrets.token_urlsafe(16)
     jwt_secret_key = secrets.token_urlsafe(32)

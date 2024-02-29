@@ -23,6 +23,7 @@ import Course from "./Dashboard/Course";
 import CreatePosts from "./Dashboard/CreatePosts";
 import Experience from "./Dashboard/Experience";
 import Profile from "./AdminDashboard/Profile";
+import Skill from "./Dashboard/Skill";
 
 function App() {
   return (
@@ -45,6 +46,8 @@ function App() {
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/createposts" element={<CreatePosts />} />
           <Route path="/approveposts" element={<ApprovePosts />} />
+          <Route path="/skills" element={<Skill />} />
+
         </Routes>
         <ProductValues />
         <ProductCategories />
