@@ -8,8 +8,13 @@ import CreateProfile from "./CreateProfile";
 import ProfilePage from "./ProfilePage";
 
 const DynamicContent = ({ selectedItem }) => {
+  const getDefaultSelectedItem = () => {
+    // Define the default selected item here (e.g., "Posts Approval")
+    return "Posts Approval";
+  };
+
   const getContent = () => {
-    switch (selectedItem) {
+    switch (selectedItem || getDefaultSelectedItem()) {
       case "Profile":
         return (
           <Typography>
@@ -41,7 +46,7 @@ const DynamicContent = ({ selectedItem }) => {
           </Typography>
         );
       default:
-        return <Typography>Welcome to Dashboard!</Typography>;
+        return null; // Remove the default message
     }
   };
 

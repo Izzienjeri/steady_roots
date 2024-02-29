@@ -19,7 +19,7 @@ const Logout = () => {
         localStorage.removeItem("accessToken");
         console.log("Logged out successfully");
         // Redirect to the landing page after successful logout
-        navigate("/");
+        navigate("/signin");
       } else {
         console.error("Failed to logout");
       }

@@ -1,5 +1,5 @@
-// AdminDashboard.jsx
 import React, { useState } from "react";
+import Header from "./Header"; // Import Header2 component
 import Navigator from "./Navigator";
 import DynamicContent from "./DynamicContent";
 
@@ -11,9 +11,14 @@ function AdminDashboard() {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <Navigator onItemClick={handleItemClick} selectedItem={selectedItem} />
-      <DynamicContent selectedItem={selectedItem} />
+    <div>
+      <Header />
+      <div style={{ display: "flex", marginTop: "-24px" }}>
+        {" "}
+        {/* Adjust margin top */}
+        <Navigator onItemClick={handleItemClick} selectedItem={selectedItem} />
+        <DynamicContent selectedItem={selectedItem} />
+      </div>
     </div>
   );
 }
