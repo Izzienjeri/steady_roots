@@ -19,15 +19,7 @@ function AppAppBar() {
       <AppBar position="fixed">
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* IconButton to open dashboard */}
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            component={RouterLink}
-            to="/dashboard" // Link to dashboard
-          >
-            <MenuIcon />
-          </IconButton>
+
           <Link
             variant="h6"
             underline="none"

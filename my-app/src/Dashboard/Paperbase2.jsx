@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Navigator2 from "./Navigator2";
-import Content2 from "./Content2";
+import DynamicContent2 from "./DynamicContent2";
 import Header2 from "./Header2";
 
 function Copyright() {
@@ -14,7 +14,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Steady Roots{" "}
+        Steady Roots
       </Link>{" "}
       {new Date().getFullYear()}.
     </Typography>
@@ -166,7 +166,7 @@ theme = {
 
 const drawerWidth = 256;
 
-export default function Paperbase() {
+export default function Paperbase2() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -202,7 +202,7 @@ export default function Paperbase() {
             component="main"
             sx={{ flex: 1, py: 6, px: 4, bgcolor: "#eaeff1" }}
           >
-            <Content2 />
+            <DynamicContent2 />
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: "#eaeff1" }}>
             <Copyright />

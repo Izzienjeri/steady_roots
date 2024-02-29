@@ -1,18 +1,15 @@
-import * as React from "react";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
+// Navigator.jsx
+import React from "react";
 import List from "@mui/material/List";
-import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 import HomeIcon from "@mui/icons-material/Home";
+import PeopleIcon from "@mui/icons-material/People";
+import DnsRoundedIcon from "@mui/icons-material/DnsRounded";
 import PermMediaOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActual";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
-import PeopleIcon from "@mui/icons-material/People";
+import SettingsEthernetIcon from "@mui/icons-material/SettingsEthernet";
 
 const categories = [
   {
@@ -21,78 +18,52 @@ const categories = [
       {
         id: "Posts",
         icon: <PermMediaOutlinedIcon />,
-        path: "/createposts",
       },
       {
         id: "Experience",
         icon: <SettingsEthernetIcon />,
-        path: "/experiences",
       },
       {
         id: "Events",
         icon: <SettingsInputComponentIcon />,
-        path: "/events",
       },
       {
         id: "Membership",
         icon: <PeopleIcon />,
-        path: "/membership",
       },
       {
         id: "Courses",
         icon: <PeopleIcon />,
-        path: "/courses",
       },
     ],
   },
 ];
 
-const item = {
-  py: "2px",
-  px: 3,
-  color: "rgba(255, 255, 255, 0.7)",
-  "&:hover, &:focus": {
-    bgcolor: "rgba(255, 255, 255, 0.08)",
-  },
-};
-
-const itemCategory = {
-  boxShadow: "0 -1px 0 rgb(255,255,255,0.1) inset",
-  py: 1.5,
-  px: 3,
-};
-
-export default function Navigator2(props) {
-  const { ...other } = props;
+const Navigator2 = ({ onItemClick, selectedItem }) => {
+  const handleItemClick = (itemId) => {
+    onItemClick(itemId);
+  };
 
   return (
-    <Drawer variant="permanent" {...other}>
-      <List disablePadding>
-        <ListItem sx={item}>Steady Roots 🖤</ListItem>
-        <ListItem sx={item}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText> DashBoard</ListItemText>
-        </ListItem>
-        {categories.map(({ id, children }) => (
-          <Box key={id}>
-            <ListItem sx={itemCategory}>
-              <ListItemText>{id}</ListItemText>
-            </ListItem>
-            {children.map(({ id: childId, icon, path }) => (
-              <ListItem disablePadding key={childId} component={Link} to={path}>
-                {" "}
-                <ListItemButton sx={item}>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{childId}</ListItemText>
-                </ListItemButton>
-              </ListItem>
+    <div style={{ width: 240, backgroundColor: "#f0f0f0", height: "100vh" }}>
+      <List>
+        {categories.map((category) => (
+          <div key={category.id}>
+            {category.children.map((child) => (
+              <ListItemButton
+                key={child.id}
+                onClick={() => handleItemClick(child.id)}
+                selected={selectedItem === child.id}
+              >
+                <ListItemIcon>{child.icon}</ListItemIcon>
+                <ListItemText primary={child.id} />
+              </ListItemButton>
             ))}
-            <Divider />
-          </Box>
+          </div>
         ))}
       </List>
-    </Drawer>
+    </div>
   );
-}
+};
+
+export default Navigator2;
