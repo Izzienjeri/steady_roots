@@ -1,0 +1,31 @@
+.createPosts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+ 
+  .createPosts-formContainer {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+
+  
+  .createPosts-cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .createPosts-card {
+    /* Styles for the cards */
+    width: 400px;
+    margin: 10px;
+    background-color: red;
+    transition: transform 0.3s;
+  }
+  
