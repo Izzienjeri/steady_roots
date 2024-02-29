@@ -26,6 +26,10 @@ import CreateProfile from "./AdminDashboard/CreateProfile";
 import EditProfile from "./AdminDashboard/EditProfile";
 import Profile from "./AdminDashboard/Profile";
 import ProfilePage from "./AdminDashboard/ProfilePage";
+import CreateProfile2 from "./Dashboard/CreateProfile2";
+import EditProfile2 from "./Dashboard/EditProfile2";
+import Profile2 from "./Dashboard/Profile2";
+import ProfilePage2 from "./Dashboard/ProfilePage2";
 import Logout from "./Logout";
 
 function App() {
@@ -44,6 +48,10 @@ function App() {
           <Route path="/createprofile" element={<CreateProfile />} />
           <Route path="/editprofile" element={<EditProfile />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profilepage2" element={<ProfilePage2 />} />
+          <Route path="/createprofile2" element={<CreateProfile2 />} />
+          <Route path="/editprofile2" element={<EditProfile2 />} />
+          <Route path="/profile2" element={<Profile2 />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/experiences" element={<Experience />} />
           <Route path="/createevents" element={<CreateEvent />} />

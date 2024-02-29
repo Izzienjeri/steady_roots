@@ -6,6 +6,7 @@ import Events from "./Event";
 import Membership from "./Membership";
 import Course from "./Course";
 import CreateEvents from "../AdminDashboard/CreateEvent";
+import ProfilePage2 from "./ProfilePage2";
 
 const DynamicContent2 = ({ selectedItem }) => {
   const getContent = () => {
@@ -13,7 +14,7 @@ const DynamicContent2 = ({ selectedItem }) => {
       case "Profile":
         return (
           <Typography>
-            <CreateEvents />
+            <ProfilePage2 />
           </Typography>
         );
       case "Posts":
