@@ -1,25 +1,40 @@
-
-from flask import Blueprint
+from flask import Blueprint, g
 from flask_restful import Api, Resource, reqparse
-from app.models import db,Profile
-from app.auth import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.models import db, MentorshipRequest, MentorshipOffer
 
-mentorship_bp=Blueprint('mentorship_blueprint',__name__)
-api=Api(mentorship_bp)
+mentorship_bp = Blueprint('mentorship_blueprint', __name__)
+api = Api(mentorship_bp)
 
-mentorship_requests = []
-
-class MentorshipResource(Resource):
+class MentorshipRequestResource(Resource):
+    @jwt_required()
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str, required=True, help='Name is required')
-        parser.add_argument('email', type=str, required=True, help='Email is required')
-        parser.add_argument('areaOfInterest', type=str, required=True, help='Area of interest is required')
-        parser.add_argument('type', type=str, required=True, help='Type is required')
+        parser.add_argument('skills_required', type=str, required=True, help='Skills required is required')
         args = parser.parse_args()
 
-        mentorship_requests.append(args)  
-        return {'message': 'Mentorship request submitted successfully'}, 201
+        user_id = get_jwt_identity()
 
-# Create API routes
-api.add_resource(MentorshipResource, '/mentorship')
+        new_request = MentorshipRequest(user_id=user_id, skills_required=args['skills_required'])
+        db.session.add(new_request)
+        db.session.commit()
+
+        return {'message': 'Mentorship request created successfully'}, 201
+
+class MentorshipOfferResource(Resource):
+    @jwt_required()
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('bio', type=str, required=True, help='Bio is required')
+        args = parser.parse_args()
+
+        user_id = get_jwt_identity()
+
+        new_offer = MentorshipOffer(user_id=user_id, bio=args['bio'])
+        db.session.add(new_offer)
+        db.session.commit()
+
+        return {'message': 'Mentorship offer created successfully'}, 201
+
+api.add_resource(MentorshipRequestResource, '/request')
+api.add_resource(MentorshipOfferResource, '/offer')

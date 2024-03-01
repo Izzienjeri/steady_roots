@@ -1,8 +1,8 @@
-"""create tables
+"""added mentorship models
 
-Revision ID: 76ea18bd2704
+Revision ID: 564303657d04
 Revises: 
-Create Date: 2024-02-26 11:09:21.651336
+Create Date: 2024-03-01 03:09:02.762318
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '76ea18bd2704'
+revision = '564303657d04'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -57,12 +57,15 @@ def upgrade():
     )
     op.create_table('users',
     sa.Column('user_id', sa.String(), nullable=False),
+    sa.Column('username', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=True),
     sa.Column('password', sa.String(), nullable=True),
+    sa.Column('bio', sa.Text(), nullable=True),
     sa.Column('role', sa.String(), nullable=True),
     sa.Column('email_subscription', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('user_id'),
-    sa.UniqueConstraint('email')
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('username')
     )
     op.create_table('courses',
     sa.Column('course_id', sa.String(), nullable=False),
@@ -112,13 +115,33 @@ def upgrade():
     sa.Column('membership', sa.Boolean(), nullable=True),
     sa.Column('expires', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.String(), nullable=False),
+    sa.Column('mpesa_number', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.user_id'], name='membership_user_fk'),
     sa.PrimaryKeyConstraint('membership_id')
+    )
+    op.create_table('mentorship_offers',
+    sa.Column('offer_id', sa.String(), nullable=False),
+    sa.Column('mentorship_offer_user_fk', sa.String(), nullable=False),
+    sa.Column('bio', sa.Text(), nullable=False),
+    sa.Column('status', sa.String(length=10), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['mentorship_offer_user_fk'], ['users.user_id'], ),
+    sa.PrimaryKeyConstraint('offer_id')
+    )
+    op.create_table('mentorship_requests',
+    sa.Column('request_id', sa.String(), nullable=False),
+    sa.Column('mentorship_request_user_fk', sa.String(), nullable=False),
+    sa.Column('skills_required', sa.Text(), nullable=False),
+    sa.Column('status', sa.String(length=10), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.ForeignKeyConstraint(['mentorship_request_user_fk'], ['users.user_id'], ),
+    sa.PrimaryKeyConstraint('request_id')
     )
     op.create_table('posts',
     sa.Column('post_id', sa.String(), nullable=False),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
+    sa.Column('image', sa.String(), nullable=True),
     sa.Column('date_posted', sa.DateTime(), nullable=True),
     sa.Column('approved', sa.Boolean(), nullable=True),
     sa.Column('approved_by', sa.String(), nullable=True),
@@ -158,6 +181,8 @@ def downgrade():
     op.drop_table('tokenblocklist')
     op.drop_table('profiles')
     op.drop_table('posts')
+    op.drop_table('mentorship_requests')
+    op.drop_table('mentorship_offers')
     op.drop_table('memberships')
     op.drop_table('mailing_list')
     op.drop_table('experiences')

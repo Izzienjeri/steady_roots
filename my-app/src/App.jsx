@@ -31,6 +31,7 @@ import Profile2 from "./Dashboard/Profile2";
 import ProfilePage2 from "./Dashboard/ProfilePage2";
 import Logout from "./Logout";
 import AppAppBar from "./modules/views/AppAppBar";
+import Mentorship from "./Dashboard/Mentorship";
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -57,6 +58,7 @@ function App() {
           <Route path="/createprofile2" element={<CreateProfile2 />} />
           <Route path="/editprofile2" element={<EditProfile2 />} />
           <Route path="/profile2" element={<Profile2 />} />
+          <Route path="/mentorship" element={<Mentorship />} />
           <Route path="/membership" element={<Membership />} />
           <Route path="/experiences" element={<Experience />} />
           <Route path="/createevents" element={<CreateEvent />} />

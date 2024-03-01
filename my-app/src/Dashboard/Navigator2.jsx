@@ -25,6 +25,10 @@ const categories = [
         icon: <PermMediaOutlinedIcon />,
       },
       {
+        id: "Mentorship",
+        icon: <SettingsEthernetIcon />,
+      },
+      {
         id: "Experience",
         icon: <SettingsEthernetIcon />,
       },

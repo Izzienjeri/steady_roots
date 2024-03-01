@@ -7,6 +7,7 @@ import Membership from "./Membership";
 import Course from "./Course";
 import CreateEvents from "../AdminDashboard/CreateEvent";
 import ProfilePage2 from "./ProfilePage2";
+import Mentorship from "./Mentorship";
 
 const DynamicContent2 = ({ selectedItem }) => {
   const getDefaultSelectedItem = () => {
@@ -40,6 +41,14 @@ const DynamicContent2 = ({ selectedItem }) => {
             <Events />
           </Typography>
         );
+
+      case "Mentorship":
+        return (
+          <Typography>
+            <Mentorship />
+          </Typography>
+        );
+
       case "Membership":
         return (
           <Typography>

@@ -6,8 +6,24 @@ from datetime import datetime
 app = create_app()
 
 def seed_users():
-    user1 = User(email='user1@example.com', password='password')
-    user2 = User(email='user2@example.com', password='password')
+    user1 = User(
+        user_id=str(uuid.uuid4()),
+        email='user1@example.com',
+        username='user1',
+        password='password',
+        bio='This is user 1',
+        role='user',
+        email_subscription=True
+    )
+    user2 = User(
+        user_id=str(uuid.uuid4()),
+        email='user2@example.com',
+        username='user2',
+        password='password',
+        bio='This is user 2',
+        role='admin',
+        email_subscription=False
+    )
     db.session.add_all([user1, user2])
     db.session.commit()
 

@@ -12,8 +12,10 @@ def generate_uuid():
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     user_id = db.Column(db.String, primary_key=True, default=generate_uuid)
+    username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
+    bio = db.Column(db.Text)
     role = db.Column(db.String, default='user')
     email_subscription = db.Column(db.Boolean, default=False)
     profile = db.relationship("Profile", backref="user", uselist=False)
@@ -32,6 +34,29 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f"User(user_id={self.user_id}, email={self.email}, role={self.role})"
 
+
+class MentorshipRequest(db.Model):
+    __tablename__ = 'mentorship_requests'
+    request_id = db.Column(db.String, primary_key=True, default=generate_uuid)
+    user_id = db.Column(db.String, db.ForeignKey('users.user_id'),name="mentorship_request_user_fk" , nullable=False)
+    skills_required = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(10), nullable=False, default='pending')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<MentorshipRequest {self.id}>'
+
+class MentorshipOffer(db.Model):
+    __tablename__ = "mentorship_offers"
+    offer_id = db.Column(db.String, primary_key=True, default=generate_uuid)
+    user_id = db.Column(db.String, db.ForeignKey('users.user_id'), name="mentorship_offer_user_fk",nullable=False)
+    bio = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(10), nullable=False, default='active')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<MentorshipOffer {self.id}>'
+    
 class Profile(db.Model, SerializerMixin):
     __tablename__ = 'profiles'
     profile_id = db.Column(db.String, primary_key=True, default=generate_uuid)

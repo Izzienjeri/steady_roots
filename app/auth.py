@@ -55,7 +55,6 @@ class SignupResource(Resource):
         password = args['password']
         role = args.get('role', 'user')  
 
-       
         if role not in ['user', 'admin']:
             return make_response(jsonify({'message': 'Invalid role provided'}), 400)
 
@@ -63,14 +62,15 @@ class SignupResource(Resource):
         if existing_user:
             return make_response(jsonify({'message': 'Email already exists'}), 409)
 
+        username = email.split('@')[0]
+
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        new_user = User(email=email, password=hashed_password, role=role)  # Assign role here
+        new_user = User(email=email, password=hashed_password, role=role, username=username)  # Set the username here
         db.session.add(new_user)
         db.session.commit()
 
         access_token = create_access_token(identity=new_user.user_id)
         return make_response(jsonify({'access_token': access_token}), 201)
-
 
     
 class LoginResource(Resource):
